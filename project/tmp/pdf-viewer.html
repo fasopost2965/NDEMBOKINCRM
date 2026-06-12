@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>body{margin:0;background:#fff;display:flex;gap:20px;padding:20px}canvas{border:1px solid #ddd;max-width:46%;height:auto}</style></head>
+<body>
+<script type="module">
+import * as pdfjs from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs';
+const doc = await pdfjs.getDocument('../uploads/logo-ndembo-kin.pdf').promise;
+for (let p = 1; p <= doc.numPages; p++) {
+  const page = await doc.getPage(p);
+  const vp = page.getViewport({ scale: 1.5 });
+  const c = document.createElement('canvas');
+  c.width = Math.ceil(vp.width); c.height = Math.ceil(vp.height);
+  document.body.appendChild(c);
+  await page.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
+}
+window.__pdfDone = true;
+document.title = 'PDF rendered';
+</script>
+</body></html>

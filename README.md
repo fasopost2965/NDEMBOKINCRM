@@ -1,41 +1,25 @@
-# NDEMBO KIN CRM
+# CODING AGENTS: READ THIS FIRST
 
-Un MVP (Minimum Viable Product) web mobile-first conçu pour **Ndembo Kin Connect SARL**, une agence de management sportif basée à Kinshasa, en République Démocratique du Congo.
+This is a **handoff bundle** from Claude Design (claude.ai/design).
 
-Ce projet est un outil de gestion quotidien pour l'équipe métier, inspiré des ERP classiques comme Odoo, mais repensé pour être plus léger, élégant et adapté au domaine sportif.
+A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
 
-## 🌟 Fonctionnalités principales
+## What you should do — IMPORTANT
 
-L'application couvre de multiples aspects de la gestion de l'agence sportive :
+**Read the chat transcripts first.** There are 2 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
 
-- **Tableau de bord (Dashboard)** : Vue d'ensemble de l'activité.
-- **Gestion de projets** : Vue Kanban (Brouillon → En cours → En attente → Validé → Terminé) et vue en liste.
-- **Base de données Sportifs & Partenaires** : Fiches détaillées pour les athlètes et les collaborateurs.
-- **Facturation & Devis** : Éditeur avec aperçu format A4, conversion de devis en facture en un clic. Gestion de la TVA optionnelle (25%) et des statuts (Brouillon, Envoyé, Accepté, Payé, Annulé).
-- **Membres VIP (Elite Club VIP)** : Gestion des cartes VIP (NFC visuelle) offrant des avantages exclusifs avec gestion des statuts (Actif, Attente, Expiré, Préinscrit).
-- **Précontrats** : Assistant interactif en 5 étapes avec génération d'aperçu A4.
-- **Espaces Multi-rôles** : Possibilité de basculer entre des vues Admin, Partenaire ou Sportif.
+**Read `project/Ndembo Kin Connect.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
 
-## 🎨 Design & Identité Visuelle
+**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
 
-L'interface a été conçue pour refléter l'identité de **Ndembo Kin** :
-- **Couleurs principales** : Ardoise (`#44707F`), Cyan (`#45C0E8`), Rouge (`#E8262C`), Jaune (`#FFCE2B`).
-- **Typographie** : Archivo (Google Fonts) pour un style moderne et épuré.
-- **UX/UI** : Fond clair avec une barre de navigation (sidebar) de couleur ardoise sur desktop. Sur mobile, une ergonomie "bottom-tabs" (Accueil, Projets, Sportifs, Docs, Plus) pour une navigation à une main.
-- **Localisation** : Interface 100% en Français, utilisation de l'USD comme devise, dates au format jj/mm/aaaa, et intégration des modes de paiements locaux (Orange Money, M-Pesa, Airtel Money, Banque, Espèces).
+## About the design files
 
-## 🚀 Prochaines étapes (Roadmap post-MVP)
+The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
 
-- Exportation réelle de documents en vrais PDF imprimables et exports PPTX/CSV.
-- Intégration matérielle des cartes NFC et scan de QR codes.
-- Développement et connexion d'un backend complet (Laravel).
+**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
 
-## 🛠️ Installation et utilisation locale
+## Bundle contents
 
-Puisqu'il s'agit d'un MVP statique, aucune installation complexe n'est requise.
-1. Clonez ce dépôt sur votre machine.
-2. Ouvrez le fichier principal `Ndembo Kin Connect.dc.html` dans n'importe quel navigateur web moderne.
-3. Explorez l'interface et les interactions !
-
----
-*Développé pour l'équipe Ndembo Kin Connect SARL.*
+- `README.md` — this file
+- `chats/` — conversation transcripts (read these!)
+- `project/` — the `NDEMBO KIN CRM` project files (HTML prototypes, assets, components)

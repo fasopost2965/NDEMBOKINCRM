@@ -1,0 +1,81 @@
+/* ==========================================================================
+   La Victoire — Color Tokens
+   ========================================================================== */
+
+:root {
+  /* ── Brand Gold Scale ── */
+  --gold-50:  #fdf8eb;
+  --gold-100: #f9edd0;
+  --gold-200: #f2d89a;
+  --gold-300: #e8bf5e;
+  --gold-400: #d4af37; /* Primary brand gold */
+  --gold-500: #c29d2f;
+  --gold-600: #a68424;
+  --gold-700: #86691d;
+  --gold-800: #6b5318;
+  --gold-900: #4a3a11;
+
+  /* ── Navy Scale ── */
+  --navy-50:  #e8e8f0;
+  --navy-100: #c5c5d8;
+  --navy-200: #9a9ab8;
+  --navy-300: #6e6e98;
+  --navy-400: #4a4a7a;
+  --navy-500: #2e2e54;
+  --navy-600: #1a1a2e; /* Brand navy */
+  --navy-700: #141428;
+  --navy-800: #0f0f1e;
+  --navy-900: #0a0a14;
+
+  /* ── Neutral Scale ── */
+  --neutral-0:   #ffffff;
+  --neutral-50:  #f8f7f5;
+  --neutral-100: #f0eeeb;
+  --neutral-200: #e0ddd8;
+  --neutral-300: #c8c4bc;
+  --neutral-400: #a8a39a;
+  --neutral-500: #88827a;
+  --neutral-600: #6a655e;
+  --neutral-700: #4d4944;
+  --neutral-800: #33302c;
+  --neutral-900: #1c1a18;
+  --neutral-950: #0d0c0b;
+
+  /* ── Semantic: Surfaces ── */
+  --surface-primary:   var(--neutral-0);
+  --surface-secondary: var(--neutral-50);
+  --surface-tertiary:  var(--neutral-100);
+  --surface-dark:      var(--navy-600);
+  --surface-darkest:   var(--navy-900);
+  --surface-gold:      var(--gold-50);
+
+  /* ── Semantic: Text ── */
+  --text-primary:   var(--neutral-900);
+  --text-secondary: var(--neutral-600);
+  --text-tertiary:  var(--neutral-400);
+  --text-inverse:   var(--neutral-0);
+  --text-gold:      var(--gold-400);
+  --text-on-dark:   var(--neutral-100);
+  --text-on-gold:   var(--navy-700);
+
+  /* ── Semantic: Borders ── */
+  --border-default:  var(--neutral-200);
+  --border-subtle:   var(--neutral-100);
+  --border-strong:   var(--neutral-400);
+  --border-gold:     var(--gold-400);
+  --border-gold-muted: var(--gold-200);
+
+  /* ── Semantic: Interactive ── */
+  --interactive-primary:       var(--gold-400);
+  --interactive-primary-hover: var(--gold-500);
+  --interactive-primary-press: var(--gold-600);
+  --interactive-secondary:       var(--navy-600);
+  --interactive-secondary-hover: var(--navy-500);
+  --interactive-secondary-press: var(--navy-700);
+
+  /* ── Status ── */
+  --status-success:  #2e7d5b;
+  --status-warning:  #c48a1a;
+  --status-error:    #b33a3a;
+  --status-info:     #3a6fb3;
+}
