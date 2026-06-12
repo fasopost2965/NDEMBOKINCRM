@@ -1,0 +1,33 @@
+Act en tant qu'Architecte Logiciel et Développeur Senior Laravel / Tailwind CSS. Tu dois générer l'ossature technique complète (fichiers de migration, relations de modèles, contrôleurs et routes) pour le MVP de l'application "Ndembo Kin Connect". 
+
+L'environnement technique cible est Laravel 11, PHP 8.2+, Tailwind CSS, et Livewire (ou Alpine.js pour l'interactivité des tableaux Kanban et des formulaires dynamiques).
+
+Génère le code propre, commenté et structuré selon les spécifications suivantes :
+
+1. ARCHITECTURE DES DONNÉES (Migrations & Modèles) :
+Génère les schémas de base de données suivants incluant les clés étrangères et les contraintes :
+- Table `users` (Rôles : 'admin', 'partner', 'sportsman').
+- Table `sportsmen_profiles` (Lien 1:1 avec users, champs : date_of_birth, phone, position, current_club, level, emergency_contact, membership_status ['pending', 'active', 'expired', 'suspended'], membership_expires_at).
+- Table `partners_profiles` (Lien 1:1 avec users, champs : company_name, type ['club', 'sponsor', 'agency'], contact_phone).
+- Table `projects` (Champs : title, description, status ['draft', 'in_progress', 'blocked', 'validated', 'completed', 'cancelled'], type ['career_management', 'camp', 'scouting', 'transfer', 'event'], start_date, end_date, sportsman_id, partner_id, created_by).
+- Table `invoices` (Champs : invoice_number, type ['quote', 'invoice'], status ['draft', 'sent', 'accepted', 'converted', 'paid', 'cancelled'], currency ['USD', 'CDF'], subtotal, tva_rate (default 25.00), total, payment_method ['orange_money', 'mpesa', 'airtel_money', 'bank', 'cash'], sportsman_id, partner_id, due_date).
+- Table `invoice_items` (Champs : invoice_id, description, quantity, unit_price, total_price).
+
+Définis explicitement les relations Eloquent correspondantes dans chaque modèle (HasMany, BelongsTo, HasOne).
+
+2. ROUTAGE COMPLET (routes/web.php) :
+Configure les groupes de routes protégés par le middleware d'authentification, segmentés par rôles avec des préfixes clairs :
+- `/admin/*` -> Accès total (Projets, Factures, Sportifs, Rapports).
+- `/partner/*` -> Accès filtré (Seulement ses projets liés, ses factures, ses joueurs).
+- `/sportsman/*` -> Accès profil unique (Ses documents, statut de sa carte membre, ses projets).
+
+3. LOGIQUE MÉTIER & WORKFLOWS CRUCIAUX :
+Fournis le code des méthodes clés des contrôleurs suivants :
+- `ProjectController@changeStatus` : pour gérer le déplacement fluide des cartes dans le pipeline Kanban.
+- `InvoiceController@convertToInvoice` : Duplique un devis ('quote') en facture ('invoice') en copiant l'historique et en régénérant un nouveau numéro de facture unique, tout en conservant la liaison.
+- `SportsmanController@generatePreContract` : Un contrôleur prenant les données de la table 'sportsmen_profiles' et renvoyant une vue HTML propre, formatée avec Tailwind CSS (prête pour DomPDF) faisant office de modèle d'accord d'accompagnement officiel.
+
+4. LOGIQUE DE TEMPLATE DE CODE :
+Donne-moi l'arborescence complète des dossiers à créer, le code complet des fichiers de migration, les modèles configurés avec leurs `protected $fillable`, et un exemple de composant Livewire (Vue + Composant) pour le tableau Kanban des projets.
+
+Sois précis, évite les ellipses dans le code des migrations et des modèles. Concentre-toi sur une architecture propre, modulaire et directement fonctionnelle.

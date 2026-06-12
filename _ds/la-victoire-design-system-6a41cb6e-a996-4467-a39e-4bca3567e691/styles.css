@@ -1,0 +1,8 @@
+/* ==========================================================================
+   La Victoire Design System — Entry Point
+   Import only; no inline rules.
+   ========================================================================== */
+
+@import url('tokens/colors.css');
+@import url('tokens/typography.css');
+@import url('tokens/spacing.css');
