@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ndembo Kin Connect — CRM</title>
+<script src="./project/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+html, body { margin: 0; padding: 0; background: #EEF3F4; }
+* { box-sizing: border-box; }
+button, input, select, textarea { font-family: inherit; }
+input::placeholder, textarea::placeholder { color: #93A6AD; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideIn { from { transform: translateX(46px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(56px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+::-webkit-scrollbar { height: 8px; width: 8px; }
+::-webkit-scrollbar-thumb { background: #C9D6DA; border-radius: 99px; }
+::-webkit-scrollbar-track { background: transparent; }
+</style>
+</helmet>
+<div style="font-family:'Archivo',system-ui,sans-serif;color:#16282F;background:#EEF3F4;min-height:100vh;display:flex;">
+  <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+    <div style="width:242px;flex-shrink:0;background:#132730;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;">
+      <div style="display:flex;align-items:center;gap:11px;padding:18px 16px 14px;">
+        <div style="width:44px;height:44px;border-radius:12px;background:#FFFFFF;display:grid;place-items:center;flex-shrink:0;">
+          <img src="project/assets/logo-mark-t.png" alt="Ndembo Kin" style="width:32px;height:auto;display:block;" />
+        </div>
+        <div>
+          <div style="color:#FFFFFF;font-weight:800;font-size:14.5px;letter-spacing:.02em;">NDEMBO KIN</div>
+          <div style="color:#54C7EC;font-size:10px;font-weight:700;letter-spacing:.16em;">CONNECT SARL</div>
+        </div>
+      </div>
+      <div style="height:1px;background:rgba(255,255,255,.08);margin:0 16px 8px;"></div>
+      <div style="padding:0 10px;display:flex;flex-direction:column;gap:2px;">
+        <div onClick="{{ goDash }}" style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:{{ nv.dash.w }};color:{{ nv.dash.c }};background:{{ nv.dash.b }};" style-hover="background:rgba(255,255,255,.07);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"></rect></svg>
+          <span>Dashboard</span>
+        </div>
+        <div style="color:#5E7E8A;font-size:10px;font-weight:700;letter-spacing:.14em;padding:14px 12px 4px;">OPÉRATIONS</div>
+        <div onClick="{{ goProjets }}" style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:{{ nv.projets.w }};color:{{ nv.projets.c }};background:{{ nv.projets.b }};" style-hover="background:rgba(255,255,255,.07);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="4.8" height="16" rx="1.2"></rect><rect x="9.8" y="4" width="4.8" height="11" rx="1.2"></rect><rect x="16.1" y="4" width="4.8" height="7" rx="1.2"></rect></svg>
+          <span>Projets</span>
+        </div>
+        <div onClick="{{ goSportifs }}" style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:{{ nv.sportifs.w }};color:{{ nv.sportifs.c }};background:{{ nv.sportifs.b }};" style-hover="background:rgba(255,255,255,.07);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"></circle><path d="M4.5 20.5c.8-3.6 3.9-5.5 7.5-5.5s6.7 1.9 7.5 5.5"></path></svg>
+          <span>Sportifs</span>
+        </div>
+        <div onClick="{{ goPartenaires }}" style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:{{ nv.partenaires.w }};color:{{ nv.partenaires.c }};background:{{ nv.partenaires.b }};" style-hover="background:rgba(255,255,255,.07);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3.2"></circle><path d="M2.8 19.5c.7-3.1 3.1-4.7 6.2-4.7s5.5 1.6 6.2 4.7"></path><path d="M15.8 5.7a3 3 0 1 1 1.6 5.7"></path><path d="M17.6 14.9c2.3.4 3.7 1.9 4.2 4.1"></path></svg>
+          <span>Partenaires</span>
+        </div>
+        <div onClick="{{ goDocs }}" style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:{{ nv.docs.w }};color:{{ nv.docs.c }};background:{{ nv.docs.b }};" style-hover="background:rgba(255,255,255,.07);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"></path><path d="M14 3v4h4"></path><path d="M9.5 13h5M9.5 16.5h3.5"></path></svg>
+          <span>Devis &amp; Factures</span>
+        </div>
+        <div onClick="{{ goMembres }}" style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:{{ nv.membres.w }};color:{{ nv.membres.c }};background:{{ nv.membres.b }};" style-hover="background:rgba(255,255,255,.07);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"></rect><path d="M2.5 9.5h19"></path><path d="M6.5 14.5h4"></path></svg>
+          <span>Membres VIP</span>
+        </div>
+        <div onClick="{{ goPrecontrat }}" style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:{{ nv.precontrat.w }};color:{{ nv.precontrat.c }};background:{{ nv.precontrat.b }};" style-hover="background:rgba(255,255,255,.07);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 20h8"></path><path d="M16.7 3.8a2 2 0 0 1 2.9 2.9L8 18.3l-3.9 1 1-3.9z"></path></svg>
+          <span>Précontrats</span>
+        </div>
+        <div style="color:#5E7E8A;font-size:10px;font-weight:700;letter-spacing:.14em;padding:14px 12px 4px;">PILOTAGE</div>
+        <div onClick="{{ goRapports }}" style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:{{ nv.rapports.w }};color:{{ nv.rapports.c }};background:{{ nv.rapports.b }};" style-hover="background:rgba(255,255,255,.07);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5h17"></path><path d="M6.5 20v-8M12 20V5.5M17.5 20v-9"></path></svg>
+          <span>Rapports</span>
+        </div>
+        <div onClick="{{ goParametres }}" style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:{{ nv.parametres.w }};color:{{ nv.parametres.c }};background:{{ nv.parametres.b }};" style-hover="background:rgba(255,255,255,.07);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5h7.5M16.5 7.5H20"></path><circle cx="14.2" cy="7.5" r="2.2"></circle><path d="M4 16.5h3.5M12 16.5h8"></path><circle cx="9.7" cy="16.5" r="2.2"></circle></svg>
+          <span>Paramètres</span>
+        </div>
+      </div>
+      <div style="flex:1;"></div>
+      <div style="margin:14px;padding:12px;border-radius:12px;background:rgba(255,255,255,.05);">
+        <div style="color:#7A99A5;font-size:10px;font-weight:700;letter-spacing:.1em;">CONNECTÉ EN TANT QUE</div>
+        <div style="color:#E7F1F4;font-size:12.5px;font-weight:600;margin-top:4px;">Christelle Makiese</div>
+        <div style="color:#7A99A5;font-size:11px;">Admin · MVP démo</div>
+      </div>
+    </div>
+  </sc-if>
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
+    <div style="position:sticky;top:0;z-index:30;background:rgba(238,243,244,.93);backdrop-filter:blur(10px);border-bottom:1px solid #E0E8EA;">
+      <div style="max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:10px clamp(14px,3vw,30px);">
+        <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+          <img src="project/assets/logo-mark-t.png" alt="Ndembo Kin" style="width:30px;height:auto;flex-shrink:0;" />
+        </sc-if>
+        <div style="font-size:16.5px;font-weight:800;letter-spacing:-.01em;white-space:nowrap;">{{ screenTitle }}</div>
+        <div style="flex:1;"></div>
+        <div style="position:relative;flex:0 1 300px;min-width:120px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7A8E96" stroke-width="2" stroke-linecap="round" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);"><circle cx="11" cy="11" r="6.5"></circle><path d="m20.5 20.5-4.8-4.8"></path></svg>
+          <input value="{{ searchVal }}" onChange="{{ onSearch }}" placeholder="Rechercher…" style="width:100%;padding:9px 12px 9px 34px;border:1px solid #D3DEE2;border-radius:99px;font-size:13px;background:#FFFFFF;outline:none;color:#16282F;" />
+        </div>
+        <button onClick="{{ bellClick }}" style="position:relative;width:38px;height:38px;border-radius:50%;border:1px solid #D3DEE2;background:#FFFFFF;cursor:pointer;display:grid;place-items:center;color:#44606B;flex-shrink:0;" style-hover="background:#F2F6F7;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 9a5.5 5.5 0 0 0-11 0c0 6-2.5 7.5-2.5 7.5h16S17.5 15 17.5 9"></path><path d="M10.3 20a2 2 0 0 0 3.4 0"></path></svg>
+          <span style="position:absolute;top:8px;right:9px;width:7px;height:7px;border-radius:50%;background:#E8262C;border:1.5px solid #FFFFFF;"></span>
+        </button>
+        <div style="position:relative;flex-shrink:0;">
+          <button onClick="{{ toggleRoleMenu }}" style="display:flex;align-items:center;gap:6px;border:1px solid #D3DEE2;background:#FFFFFF;border-radius:99px;padding:3px 9px 3px 3px;cursor:pointer;" style-hover="background:#F2F6F7;">
+            <span style="width:30px;height:30px;border-radius:50%;background:#173A47;color:#FFFFFF;display:grid;place-items:center;font-size:11px;font-weight:700;">{{ roleInitial }}</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7A8E96" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9.5 6 6 6-6"></path></svg>
+          </button>
+          <sc-if value="{{ roleMenuOpen }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ closeRoleMenu }}" style="position:fixed;inset:0;z-index:39;"></div>
+            <div style="position:absolute;top:44px;right:0;z-index:40;width:250px;background:#FFFFFF;border:1px solid #E0E8EA;border-radius:14px;box-shadow:0 18px 44px rgba(10,22,27,.16);padding:8px;animation:fadeUp .16s ease;">
+              <div style="font-size:10px;font-weight:700;color:#7A8E96;letter-spacing:.12em;padding:8px 10px 6px;">VOIR L'APPLICATION COMME</div>
+              <sc-for list="{{ roleRows }}" as="r" hint-placeholder-count="3">
+                <div onClick="{{ r.set }}" style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;cursor:pointer;" style-hover="background:#F2F6F7;">
+                  <span style="width:32px;height:32px;border-radius:50%;background:{{ r.avBg }};color:#FFFFFF;display:grid;place-items:center;font-size:11.5px;font-weight:700;">{{ r.init }}</span>
+                  <span style="flex:1;min-width:0;">
+                    <span style="display:block;font-size:13px;font-weight:600;">{{ r.nom }}</span>
+                    <span style="display:block;font-size:11.5px;color:#7A8E96;">{{ r.sub }}</span>
+                  </span>
+                  <sc-if value="{{ r.active }}" hint-placeholder-val="{{ false }}">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0E97C4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6.5 9.5 17l-5-5"></path></svg>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+    <div style="width:100%;max-width:1240px;margin:0 auto;padding:20px clamp(14px,3vw,30px) {{ padBottom }};">
+      <sc-if value="{{ isDash }}" hint-placeholder-val="{{ true }}">
+        <div data-screen-label="Dashboard">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+            <div>
+              <div style="font-size:clamp(19px,3vw,23px);font-weight:800;letter-spacing:-.015em;">Bonjour, Christelle</div>
+              <div style="font-size:13px;color:#5E7077;margin-top:3px;">Voici l'activité de l'agence — {{ today }}</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:11px;margin-top:16px;">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="6">
+              <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:15px 16px;">
+                <div style="font-size:11px;font-weight:700;color:#7A8E96;letter-spacing:.06em;text-transform:uppercase;">{{ k.label }}</div>
+                <div style="font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums;color:{{ k.c }};">{{ k.val }}</div>
+                <div style="font-size:11.5px;color:#7A8E96;margin-top:3px;">{{ k.sub }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;">
+            <button onClick="{{ qaProjet }}" style="border:none;border-radius:11px;background:#173A47;color:#FFFFFF;padding:11px 16px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;" style-hover="background:#0F2E39;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5.5v13M5.5 12h13"></path></svg>
+              Nouveau projet
+            </button>
+            <button onClick="{{ qaDevis }}" style="border:1px solid #D3DEE2;border-radius:11px;background:#FFFFFF;color:#173A47;padding:11px 16px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;" style-hover="background:#F2F6F7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0E97C4" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"></path><path d="M14 3v4h4"></path></svg>
+              Nouveau devis
+            </button>
+            <button onClick="{{ qaCarte }}" style="border:1px solid #D3DEE2;border-radius:11px;background:#FFFFFF;color:#173A47;padding:11px 16px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;" style-hover="background:#F2F6F7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D9A400" stroke-width="1.9" stroke-linecap="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"></rect><path d="M2.5 9.5h19"></path></svg>
+              Carte membre
+            </button>
+            <button onClick="{{ qaPrecontrat }}" style="border:1px solid #D3DEE2;border-radius:11px;background:#FFFFFF;color:#173A47;padding:11px 16px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;" style-hover="background:#F2F6F7;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E8262C" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 20h8"></path><path d="M16.7 3.8a2 2 0 0 1 2.9 2.9L8 18.3l-3.9 1 1-3.9z"></path></svg>
+              Précontrat
+            </button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:13px;margin-top:18px;align-items:start;">
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+                <div style="font-size:14.5px;font-weight:700;">Projets en cours</div>
+                <button onClick="{{ goProjets }}" style="border:none;background:none;color:#0E97C4;font-size:12.5px;font-weight:700;cursor:pointer;padding:0;">Tout voir</button>
+              </div>
+              <div style="margin-top:6px;">
+                <sc-for list="{{ dashProjets }}" as="p" hint-placeholder-count="3">
+                  <div onClick="{{ p.open }}" style="display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid #EEF3F4;cursor:pointer;">
+                    <span style="width:34px;height:34px;border-radius:50%;background:{{ p.avBg }};color:#FFFFFF;display:grid;place-items:center;font-size:11.5px;font-weight:700;flex-shrink:0;">{{ p.avInit }}</span>
+                    <span style="flex:1;min-width:0;">
+                      <span style="display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.titre }}</span>
+                      <span style="display:block;font-size:11.5px;color:#7A8E96;">{{ p.sub }}</span>
+                    </span>
+                    <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap;background:{{ p.stBg }};color:{{ p.stC }};">{{ p.stLabel }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+                <div style="font-size:14.5px;font-weight:700;">Abonnements à suivre</div>
+                <button onClick="{{ goMembres }}" style="border:none;background:none;color:#0E97C4;font-size:12.5px;font-weight:700;cursor:pointer;padding:0;">Membres</button>
+              </div>
+              <div style="margin-top:6px;">
+                <sc-for list="{{ ren }}" as="r" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid #EEF3F4;">
+                    <span style="width:34px;height:34px;border-radius:50%;background:{{ r.avBg }};color:#FFFFFF;display:grid;place-items:center;font-size:11.5px;font-weight:700;flex-shrink:0;">{{ r.init }}</span>
+                    <span style="flex:1;min-width:0;">
+                      <span style="display:block;font-size:13px;font-weight:600;">{{ r.nom }}</span>
+                      <span style="display:block;font-size:11.5px;color:#7A8E96;">{{ r.sub }}</span>
+                    </span>
+                    <button onClick="{{ r.act }}" style="border:1px solid #D3DEE2;border-radius:9px;background:#FFFFFF;color:#173A47;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;" style-hover="background:#F2F6F7;">{{ r.btn }}</button>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:14.5px;font-weight:700;">Activité récente</div>
+              <div style="margin-top:6px;">
+                <sc-for list="{{ activite }}" as="a" hint-placeholder-count="5">
+                  <div style="display:flex;gap:11px;padding:10px 0;border-top:1px solid #EEF3F4;">
+                    <span style="width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;background:{{ a.c }};"></span>
+                    <span style="flex:1;font-size:12.5px;line-height:1.45;color:#33474F;">{{ a.txt }}</span>
+                    <span style="font-size:11px;color:#9AAAB1;white-space:nowrap;">{{ a.t }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isProjets }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Projets">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <div style="display:inline-flex;background:#E2EAEC;border-radius:10px;padding:3px;gap:2px;">
+              <button onClick="{{ vueKanban }}" style="border:none;border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;background:{{ segK.b }};color:{{ segK.c }};box-shadow:{{ segK.s }};">Kanban</button>
+              <button onClick="{{ vueListe }}" style="border:none;border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;background:{{ segL.b }};color:{{ segL.c }};box-shadow:{{ segL.s }};">Liste</button>
+            </div>
+            <div style="flex:1;"></div>
+            <button onClick="{{ qaProjet }}" style="border:none;border-radius:11px;background:#173A47;color:#FFFFFF;padding:10px 15px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;" style-hover="background:#0F2E39;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5.5v13M5.5 12h13"></path></svg>
+              Nouveau projet
+            </button>
+          </div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:12px;">
+            <sc-for list="{{ typeChips }}" as="t" hint-placeholder-count="4">
+              <button onClick="{{ t.go }}" style="border:1px solid {{ t.bd }};border-radius:999px;background:{{ t.b }};color:{{ t.c }};padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;">{{ t.label }}</button>
+            </sc-for>
+          </div>
+          <sc-if value="{{ isKanban }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:12px;overflow-x:auto;padding:14px 2px 8px;align-items:flex-start;">
+              <sc-for list="{{ kanbanCols }}" as="col" hint-placeholder-count="5">
+                <div style="min-width:246px;flex:1;background:#E7EEF0;border-radius:14px;padding:10px;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px 4px;">
+                    <span style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#44606B;">{{ col.label }}</span>
+                    <span style="background:#FFFFFF;border-radius:99px;padding:1px 8px;font-size:11.5px;font-weight:700;color:#44606B;">{{ col.count }}</span>
+                  </div>
+                  <sc-for list="{{ col.cards }}" as="p" hint-placeholder-count="2">
+                    <div onClick="{{ p.open }}" style="background:#FFFFFF;border-radius:12px;padding:12px;margin-top:8px;cursor:pointer;box-shadow:0 1px 2px rgba(10,22,27,.06);transition:transform .12s ease,box-shadow .12s ease;" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(10,22,27,.1);">
+                      <span style="display:inline-block;padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:700;background:{{ p.typeBg }};color:{{ p.typeC }};">{{ p.typeLabel }}</span>
+                      <div style="font-size:13px;font-weight:700;margin-top:8px;line-height:1.35;">{{ p.titre }}</div>
+                      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;">
+                        <span style="width:24px;height:24px;border-radius:50%;background:{{ p.avBg }};color:#FFFFFF;display:grid;place-items:center;font-size:9.5px;font-weight:700;">{{ p.avInit }}</span>
+                        <span style="font-size:11px;color:#9AAAB1;">{{ p.date }}</span>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isListe }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:6px 18px;margin-top:14px;">
+              <sc-for list="{{ listeProjets }}" as="p" hint-placeholder-count="6">
+                <div onClick="{{ p.open }}" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #EEF3F4;cursor:pointer;flex-wrap:wrap;">
+                  <span style="width:34px;height:34px;border-radius:50%;background:{{ p.avBg }};color:#FFFFFF;display:grid;place-items:center;font-size:11.5px;font-weight:700;flex-shrink:0;">{{ p.avInit }}</span>
+                  <span style="flex:1;min-width:170px;">
+                    <span style="display:block;font-size:13.5px;font-weight:600;">{{ p.titre }}</span>
+                    <span style="display:block;font-size:11.5px;color:#7A8E96;">{{ p.sub }} · {{ p.resp }}</span>
+                  </span>
+                  <span style="font-size:11.5px;color:#9AAAB1;white-space:nowrap;">{{ p.date }}</span>
+                  <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap;background:{{ p.stBg }};color:{{ p.stC }};">{{ p.stLabel }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isSportifs }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Sportifs">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <div style="font-size:13px;color:#5E7077;">{{ nbSportifs }} sportifs suivis par l'agence</div>
+            <div style="flex:1;"></div>
+            <button onClick="{{ qaPrecontrat }}" style="border:none;border-radius:11px;background:#173A47;color:#FFFFFF;padding:10px 15px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;" style-hover="background:#0F2E39;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5.5v13M5.5 12h13"></path></svg>
+              Nouveau sportif
+            </button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:12px;margin-top:14px;">
+            <sc-for list="{{ sportifsList }}" as="s" hint-placeholder-count="8">
+              <div onClick="{{ s.open }}" style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:15px;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;" style-hover="transform:translateY(-2px);box-shadow:0 8px 20px rgba(10,22,27,.08);">
+                <div style="display:flex;align-items:center;gap:11px;">
+                  <span style="width:44px;height:44px;border-radius:50%;background:{{ s.avBg }};color:#FFFFFF;display:grid;place-items:center;font-size:14px;font-weight:700;flex-shrink:0;">{{ s.init }}</span>
+                  <span style="flex:1;min-width:0;">
+                    <span style="display:block;font-size:14px;font-weight:700;">{{ s.nom }}</span>
+                    <span style="display:block;font-size:11.5px;color:#7A8E96;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ s.sub }}</span>
+                  </span>
+                </div>
+                <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;">
+                  <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:{{ s.cBg }};color:{{ s.cC }};">{{ s.cL }}</span>
+                  <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#ECF1F2;color:#5E7077;">{{ s.age }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isFiche }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Fiche sportif">
+          <button onClick="{{ backSportifs }}" style="border:none;background:none;color:#5E7077;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:0 0 12px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><path d="m11.5 18.5-6.5-6.5 6.5-6.5"></path></svg>
+            Tous les sportifs
+          </button>
+          <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:16px;padding:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <span style="width:62px;height:62px;border-radius:50%;background:{{ sp.avBg }};color:#FFFFFF;display:grid;place-items:center;font-size:20px;font-weight:800;flex-shrink:0;">{{ sp.init }}</span>
+            <div style="flex:1;min-width:200px;">
+              <div style="font-size:20px;font-weight:800;letter-spacing:-.01em;">{{ sp.nom }}</div>
+              <div style="font-size:13px;color:#5E7077;margin-top:2px;">{{ sp.sub }}</div>
+              <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+                <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:{{ sp.cBg }};color:{{ sp.cC }};">{{ sp.cL }}</span>
+                <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#ECF1F2;color:#5E7077;">{{ sp.niveau }}</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button onClick="{{ sp.precontrat }}" style="border:none;border-radius:10px;background:#173A47;color:#FFFFFF;padding:10px 14px;font-size:12.5px;font-weight:700;cursor:pointer;" style-hover="background:#0F2E39;">Précontrat</button>
+              <button onClick="{{ sp.voirCarte }}" style="border:1px solid #D3DEE2;border-radius:10px;background:#FFFFFF;color:#173A47;padding:10px 14px;font-size:12.5px;font-weight:600;cursor:pointer;" style-hover="background:#F2F6F7;">Carte membre</button>
+              <button onClick="{{ sp.nouveauProjet }}" style="border:1px solid #D3DEE2;border-radius:10px;background:#FFFFFF;color:#173A47;padding:10px 14px;font-size:12.5px;font-weight:600;cursor:pointer;" style-hover="background:#F2F6F7;">+ Projet</button>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:13px;margin-top:13px;align-items:start;">
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:14.5px;font-weight:700;">Informations</div>
+              <div style="margin-top:4px;">
+                <sc-for list="{{ sp.infos }}" as="i" hint-placeholder-count="7">
+                  <div style="display:flex;gap:12px;padding:9px 0;border-top:1px solid #EEF3F4;">
+                    <span style="width:128px;flex-shrink:0;font-size:12px;color:#7A8E96;font-weight:600;">{{ i.l }}</span>
+                    <span style="flex:1;font-size:12.5px;font-weight:500;color:#22363E;">{{ i.v }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:13px;">
+              <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div style="font-size:14.5px;font-weight:700;">Carte membre VIP</div>
+                  <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:{{ sp.cBg }};color:{{ sp.cC }};">{{ sp.cL }}</span>
+                </div>
+                <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap;">
+                  <div style="flex:1;min-width:100px;">
+                    <div style="font-size:10.5px;font-weight:700;color:#9AAAB1;letter-spacing:.08em;">N° MEMBRE</div>
+                    <div style="font-size:13px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums;">{{ sp.num }}</div>
+                  </div>
+                  <div style="flex:1;min-width:100px;">
+                    <div style="font-size:10.5px;font-weight:700;color:#9AAAB1;letter-spacing:.08em;">ÉMISE LE</div>
+                    <div style="font-size:13px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums;">{{ sp.emise }}</div>
+                  </div>
+                  <div style="flex:1;min-width:100px;">
+                    <div style="font-size:10.5px;font-weight:700;color:#9AAAB1;letter-spacing:.08em;">EXPIRE LE</div>
+                    <div style="font-size:13px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums;">{{ sp.expire }}</div>
+                  </div>
+                </div>
+                <button onClick="{{ sp.voirCarte }}" style="margin-top:13px;border:1px solid #D3DEE2;border-radius:10px;background:#FFFFFF;color:#173A47;padding:9px 13px;font-size:12.5px;font-weight:600;cursor:pointer;width:100%;" style-hover="background:#F2F6F7;">Voir la carte</button>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+                <div style="font-size:14.5px;font-weight:700;">Projets liés</div>
+                <sc-if value="{{ sp.hasProjets }}" hint-placeholder-val="{{ true }}">
+                  <div style="margin-top:4px;">
+                    <sc-for list="{{ sp.projets }}" as="p" hint-placeholder-count="2">
+                      <div onClick="{{ p.open }}" style="display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid #EEF3F4;cursor:pointer;">
+                        <span style="flex:1;min-width:0;">
+                          <span style="display:block;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.titre }}</span>
+                          <span style="display:block;font-size:11px;color:#9AAAB1;">{{ p.typeLabel }} · {{ p.date }}</span>
+                        </span>
+                        <span style="padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:700;white-space:nowrap;background:{{ p.stBg }};color:{{ p.stC }};">{{ p.stLabel }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:13px;">
+              <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+                <div style="font-size:14.5px;font-weight:700;">Documents</div>
+                <sc-if value="{{ sp.hasDocs }}" hint-placeholder-val="{{ true }}">
+                  <div style="margin-top:4px;">
+                    <sc-for list="{{ sp.docs }}" as="d" hint-placeholder-count="2">
+                      <div onClick="{{ d.preview }}" style="display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid #EEF3F4;cursor:pointer;">
+                        <span style="width:30px;height:30px;border-radius:8px;display:grid;place-items:center;flex-shrink:0;background:{{ d.iconBg }};color:{{ d.iconC }};">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"></path><path d="M14 3v4h4"></path></svg>
+                        </span>
+                        <span style="flex:1;min-width:0;">
+                          <span style="display:block;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;">{{ d.num }}</span>
+                          <span style="display:block;font-size:11px;color:#9AAAB1;">{{ d.typeLabel }} · {{ d.date }} · {{ d.total }}</span>
+                        </span>
+                        <span style="padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:700;background:{{ d.stBg }};color:{{ d.stC }};">{{ d.stL }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+                <div style="font-size:14.5px;font-weight:700;">Notes internes</div>
+                <div style="display:flex;gap:8px;margin-top:10px;">
+                  <input value="{{ noteInput }}" onChange="{{ onNoteInput }}" placeholder="Ajouter une note…" style="flex:1;padding:9px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:12.5px;background:#FFFFFF;outline:none;color:#16282F;min-width:0;" />
+                  <button onClick="{{ sp.addNote }}" style="border:none;border-radius:10px;background:#173A47;color:#FFFFFF;padding:9px 13px;font-size:12.5px;font-weight:700;cursor:pointer;flex-shrink:0;" style-hover="background:#0F2E39;">Ajouter</button>
+                </div>
+                <sc-if value="{{ sp.hasNotes }}" hint-placeholder-val="{{ true }}">
+                  <div style="margin-top:6px;">
+                    <sc-for list="{{ sp.notes }}" as="n" hint-placeholder-count="1">
+                      <div style="padding:10px 0;border-top:1px solid #EEF3F4;">
+                        <div style="font-size:12.5px;line-height:1.5;color:#33474F;">{{ n.txt }}</div>
+                        <div style="font-size:10.5px;color:#9AAAB1;margin-top:4px;">{{ n.meta }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isPartenaires }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Partenaires">
+          <div style="font-size:13px;color:#5E7077;">Clubs, académies et organisations liés à l'agence</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));gap:12px;margin-top:14px;">
+            <sc-for list="{{ partenairesList }}" as="p" hint-placeholder-count="5">
+              <div onClick="{{ p.open }}" style="background:#FFFFFF;border:1px solid {{ p.bd }};border-radius:14px;padding:15px;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;" style-hover="transform:translateY(-2px);box-shadow:0 8px 20px rgba(10,22,27,.08);">
+                <div style="display:flex;align-items:center;gap:11px;">
+                  <span style="width:42px;height:42px;border-radius:11px;background:{{ p.avBg }};color:#FFFFFF;display:grid;place-items:center;font-size:13px;font-weight:700;flex-shrink:0;">{{ p.init }}</span>
+                  <span style="flex:1;min-width:0;">
+                    <span style="display:block;font-size:14px;font-weight:700;">{{ p.nom }}</span>
+                    <span style="display:block;font-size:11.5px;color:#7A8E96;">{{ p.type }}</span>
+                  </span>
+                </div>
+                <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;">
+                  <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#ECF1F2;color:#5E7077;">{{ p.nbProjets }}</span>
+                  <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#ECF1F2;color:#5E7077;">{{ p.nbDocs }}</span>
+                </div>
+                <div style="font-size:11.5px;color:#9AAAB1;margin-top:10px;">{{ p.ville }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ selPart }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:16px;padding:18px 20px;margin-top:14px;animation:fadeUp .2s ease;">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+                <div>
+                  <div style="font-size:16.5px;font-weight:800;">{{ selPart.nom }}</div>
+                  <div style="font-size:12.5px;color:#7A8E96;margin-top:2px;">{{ selPart.type }}</div>
+                </div>
+                <button onClick="{{ selPart.close }}" style="border:none;background:#ECF1F2;border-radius:9px;width:30px;height:30px;cursor:pointer;display:grid;place-items:center;color:#5E7077;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+                </button>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:14px;align-items:start;">
+                <div>
+                  <div style="font-size:11px;font-weight:700;color:#7A8E96;letter-spacing:.08em;">CONTACT</div>
+                  <div style="font-size:13px;font-weight:600;margin-top:6px;">{{ selPart.contact }}</div>
+                  <div style="font-size:12.5px;color:#5E7077;margin-top:3px;">{{ selPart.tel }}</div>
+                  <div style="font-size:12.5px;color:#0E97C4;margin-top:3px;">{{ selPart.email }}</div>
+                </div>
+                <div>
+                  <div style="font-size:11px;font-weight:700;color:#7A8E96;letter-spacing:.08em;">PROJETS LIÉS</div>
+                  <sc-for list="{{ selPart.projets }}" as="p" hint-placeholder-count="2">
+                    <div onClick="{{ p.open }}" style="display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid #EEF3F4;cursor:pointer;">
+                      <span style="flex:1;font-size:12.5px;font-weight:600;">{{ p.titre }}</span>
+                      <span style="padding:2px 9px;border-radius:999px;font-size:10.5px;font-weight:700;background:{{ p.stBg }};color:{{ p.stC }};">{{ p.stLabel }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div>
+                  <div style="font-size:11px;font-weight:700;color:#7A8E96;letter-spacing:.08em;">DOCUMENTS</div>
+                  <sc-for list="{{ selPart.docs }}" as="d" hint-placeholder-count="2">
+                    <div onClick="{{ d.preview }}" style="display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid #EEF3F4;cursor:pointer;">
+                      <span style="flex:1;font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;">{{ d.num }}</span>
+                      <span style="font-size:11.5px;color:#7A8E96;">{{ d.total }}</span>
+                      <span style="padding:2px 9px;border-radius:999px;font-size:10.5px;font-weight:700;background:{{ d.stBg }};color:{{ d.stC }};">{{ d.stL }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isDocs }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Devis et Factures">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <div style="display:inline-flex;background:#E2EAEC;border-radius:10px;padding:3px;gap:2px;">
+              <button onClick="{{ tabTous.go }}" style="border:none;border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;background:{{ tabTous.b }};color:{{ tabTous.c }};box-shadow:{{ tabTous.s }};">Tous</button>
+              <button onClick="{{ tabDevis.go }}" style="border:none;border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;background:{{ tabDevis.b }};color:{{ tabDevis.c }};box-shadow:{{ tabDevis.s }};">Devis</button>
+              <button onClick="{{ tabFactures.go }}" style="border:none;border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;background:{{ tabFactures.b }};color:{{ tabFactures.c }};box-shadow:{{ tabFactures.s }};">Factures</button>
+            </div>
+            <div style="flex:1;"></div>
+            <button onClick="{{ nouveauDevis }}" style="border:none;border-radius:11px;background:#173A47;color:#FFFFFF;padding:10px 15px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;" style-hover="background:#0F2E39;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5.5v13M5.5 12h13"></path></svg>
+              Nouveau devis
+            </button>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:6px 18px;margin-top:14px;">
+            <sc-for list="{{ docsList }}" as="d" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid #EEF3F4;flex-wrap:wrap;">
+                <span style="width:36px;height:36px;border-radius:10px;display:grid;place-items:center;flex-shrink:0;background:{{ d.iconBg }};color:{{ d.iconC }};">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"></path><path d="M14 3v4h4"></path></svg>
+                </span>
+                <span style="flex:1;min-width:150px;">
+                  <span style="display:block;font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums;">{{ d.num }}</span>
+                  <span style="display:block;font-size:11.5px;color:#7A8E96;">{{ d.typeLabel }} · {{ d.clientNom }} · {{ d.date }}</span>
+                </span>
+                <span style="font-size:13.5px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;">{{ d.total }}</span>
+                <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap;background:{{ d.stBg }};color:{{ d.stC }};">{{ d.stL }}</span>
+                <span style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button onClick="{{ d.preview }}" style="border:1px solid #D3DEE2;border-radius:9px;background:#FFFFFF;color:#173A47;padding:6px 11px;font-size:11.5px;font-weight:700;cursor:pointer;" style-hover="background:#F2F6F7;">Aperçu</button>
+                  <sc-if value="{{ d.canSend }}" hint-placeholder-val="{{ false }}">
+                    <button onClick="{{ d.envoyer }}" style="border:1px solid #BFE3F0;border-radius:9px;background:#EAF7FB;color:#0B7FA6;padding:6px 11px;font-size:11.5px;font-weight:700;cursor:pointer;">Envoyer</button>
+                  </sc-if>
+                  <sc-if value="{{ d.canConvert }}" hint-placeholder-val="{{ false }}">
+                    <button onClick="{{ d.convertir }}" style="border:1px solid #BBE2CD;border-radius:9px;background:#E1F3E9;color:#1F8A5B;padding:6px 11px;font-size:11.5px;font-weight:700;cursor:pointer;">Convertir en facture</button>
+                  </sc-if>
+                  <sc-if value="{{ d.canPay }}" hint-placeholder-val="{{ false }}">
+                    <button onClick="{{ d.payer }}" style="border:1px solid #BBE2CD;border-radius:9px;background:#E1F3E9;color:#1F8A5B;padding:6px 11px;font-size:11.5px;font-weight:700;cursor:pointer;">Marquer payée</button>
+                  </sc-if>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isDocEdit }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Editeur de document">
+          <button onClick="{{ draft.cancel }}" style="border:none;background:none;color:#5E7077;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:0 0 12px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><path d="m11.5 18.5-6.5-6.5 6.5-6.5"></path></svg>
+            Devis &amp; Factures
+          </button>
+          <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:16px;padding:20px;max-width:760px;">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+              <div style="font-size:17px;font-weight:800;flex:1;">{{ draft.titre }}</div>
+              <div style="display:inline-flex;background:#E2EAEC;border-radius:10px;padding:3px;gap:2px;">
+                <button onClick="{{ draft.setDevis }}" style="border:none;border-radius:8px;padding:6px 13px;font-size:12px;font-weight:700;cursor:pointer;background:{{ draft.isDevisB }};color:{{ draft.isDevisC }};box-shadow:{{ draft.isDevisS }};">Devis</button>
+                <button onClick="{{ draft.setFacture }}" style="border:none;border-radius:8px;padding:6px 13px;font-size:12px;font-weight:700;cursor:pointer;background:{{ draft.isFactB }};color:{{ draft.isFactC }};box-shadow:{{ draft.isFactS }};">Facture</button>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px;">
+              <div>
+                <div style="font-size:11.5px;font-weight:700;color:#5E7077;letter-spacing:.05em;margin-bottom:5px;">CLIENT</div>
+                <select value="{{ draft.clientKey }}" onChange="{{ draft.onClient }}" style="width:100%;padding:10px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:13px;background:#FFFFFF;color:#16282F;outline:none;">
+                  <option value="">Choisir un client…</option>
+                  <optgroup label="Partenaires">
+                    <sc-for list="{{ partOpts }}" as="o" hint-placeholder-count="3">
+                      <option value="{{ o.key }}">{{ o.nom }}</option>
+                    </sc-for>
+                  </optgroup>
+                  <optgroup label="Sportifs">
+                    <sc-for list="{{ spOpts }}" as="o" hint-placeholder-count="3">
+                      <option value="{{ o.key }}">{{ o.nom }}</option>
+                    </sc-for>
+                  </optgroup>
+                </select>
+              </div>
+              <div>
+                <div style="font-size:11.5px;font-weight:700;color:#5E7077;letter-spacing:.05em;margin-bottom:5px;">DATE</div>
+                <input value="{{ draft.date }}" onChange="{{ draft.onDate }}" style="width:100%;padding:10px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:13px;background:#FFFFFF;color:#16282F;outline:none;" />
+              </div>
+            </div>
+            <div style="font-size:11.5px;font-weight:700;color:#5E7077;letter-spacing:.05em;margin:18px 0 6px;">LIGNES DE SERVICE</div>
+            <sc-if value="{{ draft.hasLignes }}" hint-placeholder-val="{{ true }}">
+              <div>
+                <sc-for list="{{ draft.lignes }}" as="l" hint-placeholder-count="1">
+                  <div style="display:flex;align-items:center;gap:9px;padding:9px 0;border-top:1px solid #EEF3F4;flex-wrap:wrap;">
+                    <span style="flex:1;min-width:150px;font-size:13px;font-weight:600;">{{ l.label }}</span>
+                    <input type="number" value="{{ l.qte }}" onChange="{{ l.onQte }}" style="width:64px;padding:8px 9px;border:1px solid #D3DEE2;border-radius:9px;font-size:12.5px;text-align:center;outline:none;color:#16282F;" />
+                    <input type="number" value="{{ l.prix }}" onChange="{{ l.onPrix }}" style="width:88px;padding:8px 9px;border:1px solid #D3DEE2;border-radius:9px;font-size:12.5px;text-align:right;outline:none;color:#16282F;" />
+                    <span style="width:84px;text-align:right;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;">{{ l.tot }}</span>
+                    <button onClick="{{ l.remove }}" style="border:none;background:#FBE5E5;color:#C9252B;border-radius:8px;width:28px;height:28px;cursor:pointer;display:grid;place-items:center;">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+                    </button>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+              <select value="{{ draft.addSel }}" onChange="{{ draft.onAddSel }}" style="flex:1;min-width:190px;padding:10px 12px;border:1px dashed #B9C9CE;border-radius:10px;font-size:13px;background:#F7FAFA;color:#16282F;outline:none;">
+                <option value="">Ajouter un service…</option>
+                <sc-for list="{{ services }}" as="s" hint-placeholder-count="4">
+                  <option value="{{ s.id }}">{{ s.nom }} — {{ s.prix }} $</option>
+                </sc-for>
+              </select>
+              <button onClick="{{ draft.addLigne }}" style="border:1px solid #D3DEE2;border-radius:10px;background:#FFFFFF;color:#173A47;padding:10px 14px;font-size:12.5px;font-weight:700;cursor:pointer;" style-hover="background:#F2F6F7;">+ Ajouter</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid #EEF3F4;">
+              <div onClick="{{ draft.toggleTva }}" style="width:40px;height:22px;border-radius:99px;position:relative;cursor:pointer;transition:background .2s;background:{{ draft.tvaBg }};">
+                <span style="position:absolute;top:3px;width:16px;height:16px;border-radius:50%;background:#FFFFFF;transition:left .2s;left:{{ draft.tvaLeft }};"></span>
+              </div>
+              <span style="font-size:13px;font-weight:600;color:#33474F;">Appliquer la TVA ({{ draft.tvaTaux }})</span>
+            </div>
+            <div style="margin-top:14px;display:flex;justify-content:flex-end;">
+              <div style="width:230px;">
+                <div style="display:flex;justify-content:space-between;font-size:12.5px;color:#5E7077;padding:4px 0;"><span>Sous-total</span><span style="font-variant-numeric:tabular-nums;">{{ draft.stStr }}</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:12.5px;color:#5E7077;padding:4px 0;"><span>TVA</span><span style="font-variant-numeric:tabular-nums;">{{ draft.tvaStr }}</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:800;padding:8px 0 0;border-top:1px solid #EEF3F4;margin-top:5px;"><span>Total</span><span style="font-variant-numeric:tabular-nums;">{{ draft.totStr }}</span></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:9px;justify-content:flex-end;margin-top:18px;">
+              <button onClick="{{ draft.cancel }}" style="border:1px solid #D3DEE2;border-radius:10px;background:#FFFFFF;color:#173A47;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;" style-hover="background:#F2F6F7;">Annuler</button>
+              <button onClick="{{ draft.save }}" style="border:none;border-radius:10px;background:#173A47;color:#FFFFFF;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;" style-hover="background:#0F2E39;">Enregistrer</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isMembres }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Membres VIP">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:14px;align-items:start;">
+            <div>
+              <div style="position:relative;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#10242D 0%,#1C3D49 55%,#2A5666 100%);color:#FFFFFF;padding:22px 24px;max-width:440px;aspect-ratio:1.62;box-shadow:0 24px 50px rgba(10,22,27,.32);display:flex;flex-direction:column;justify-content:space-between;">
+                <img src="project/assets/logo-mark-t.png" alt="" style="position:absolute;right:-44px;bottom:-54px;width:250px;opacity:.09;filter:grayscale(1) brightness(2.4);pointer-events:none;" />
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+                  <div style="display:flex;align-items:center;gap:9px;">
+                    <img src="project/assets/logo-mark-t.png" alt="" style="width:32px;height:auto;" />
+                    <span>
+                      <span style="display:block;font-size:12px;font-weight:800;letter-spacing:.05em;">NDEMBO KIN</span>
+                      <span style="display:block;font-size:8.5px;font-weight:700;letter-spacing:.2em;color:#54C7EC;">CONNECT SARL</span>
+                    </span>
+                  </div>
+                  <span style="background:#FFCE2B;color:#142730;font-size:10px;font-weight:800;letter-spacing:.1em;border-radius:999px;padding:4px 11px;">ELITE CLUB</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:14px;">
+                  <span style="width:44px;height:33px;border-radius:7px;background:linear-gradient(135deg,#E9C24A,#C89B28);position:relative;display:block;">
+                    <span style="position:absolute;inset:7px 9px;border:1px solid rgba(20,39,48,.4);border-radius:4px;display:block;"></span>
+                  </span>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 5.5a10 10 0 0 1 0 13"></path><path d="M5.5 8.5a6 6 0 0 1 0 7"></path><path d="M11.5 3a13.5 13.5 0 0 1 0 18"></path></svg>
+                </div>
+                <div>
+                  <div style="font-size:18px;font-weight:800;letter-spacing:.03em;">{{ membre.nom }}</div>
+                  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:10px;">
+                    <span>
+                      <span style="display:block;font-size:8.5px;font-weight:700;letter-spacing:.16em;color:rgba(255,255,255,.55);">N° MEMBRE</span>
+                      <span style="display:block;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px;">{{ membre.num }}</span>
+                    </span>
+                    <span>
+                      <span style="display:block;font-size:8.5px;font-weight:700;letter-spacing:.16em;color:rgba(255,255,255,.55);">VALABLE JUSQU'AU</span>
+                      <span style="display:block;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px;">{{ membre.exp }}</span>
+                    </span>
+                    <span style="width:42px;height:42px;border-radius:8px;background:#FFFFFF;display:grid;place-items:center;flex-shrink:0;">
+                      <svg width="28" height="28" viewBox="0 0 24 24"><path fill="#142730" d="M3 3h7v7H3zM5 5v3h3V5zM14 3h7v7h-7zM16 5v3h3V5zM3 14h7v7H3zM5 16v3h3v-3zM14 14h3v3h-3zM18 14h3v3h-3zM14 18h3v3h-3zM18 18h3v3h-3z"></path></svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;">
+                <span style="padding:4px 11px;border-radius:999px;font-size:11.5px;font-weight:700;background:{{ membre.stBg }};color:{{ membre.stC }};">{{ membre.stL }}</span>
+                <span style="font-size:12px;color:#7A8E96;">Émise le {{ membre.emise }} · 100 $ / an</span>
+              </div>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:14.5px;font-weight:700;">Avantages Elite Club</div>
+              <div style="margin-top:4px;">
+                <sc-for list="{{ avantages }}" as="a" hint-placeholder-count="5">
+                  <div style="display:flex;gap:10px;padding:9px 0;border-top:1px solid #EEF3F4;align-items:flex-start;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1F8A5B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><path d="M20 6.5 9.5 17l-5-5"></path></svg>
+                    <span style="font-size:12.5px;line-height:1.5;color:#33474F;">{{ a }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="margin-top:12px;padding:10px 13px;border-radius:10px;background:#F2F8FA;font-size:11.5px;color:#44606B;line-height:1.5;">Intégration NFC et vérification QR prévues dans la version connectée. Le visuel de carte est prêt pour l'impression.</div>
+            </div>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:6px 18px;margin-top:14px;">
+            <div style="font-size:14.5px;font-weight:700;padding:13px 0 7px;">Registre des membres</div>
+            <sc-for list="{{ membresList }}" as="m" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #EEF3F4;flex-wrap:wrap;border-left:3px solid {{ m.selBd }};padding-left:9px;margin-left:-12px;">
+                <span style="width:36px;height:36px;border-radius:50%;background:{{ m.avBg }};color:#FFFFFF;display:grid;place-items:center;font-size:12px;font-weight:700;flex-shrink:0;">{{ m.init }}</span>
+                <span style="flex:1;min-width:150px;">
+                  <span style="display:block;font-size:13.5px;font-weight:700;">{{ m.nom }}</span>
+                  <span style="display:block;font-size:11.5px;color:#7A8E96;">{{ m.num }} · {{ m.sub }}</span>
+                </span>
+                <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap;background:{{ m.cBg }};color:{{ m.cC }};">{{ m.cL }}</span>
+                <span style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button onClick="{{ m.voir }}" style="border:1px solid #D3DEE2;border-radius:9px;background:#FFFFFF;color:#173A47;padding:6px 11px;font-size:11.5px;font-weight:700;cursor:pointer;" style-hover="background:#F2F6F7;">Voir la carte</button>
+                  <sc-if value="{{ m.canRenew }}" hint-placeholder-val="{{ false }}">
+                    <button onClick="{{ m.renouveler }}" style="border:1px solid #BBE2CD;border-radius:9px;background:#E1F3E9;color:#1F8A5B;padding:6px 11px;font-size:11.5px;font-weight:700;cursor:pointer;">{{ m.renewLabel }}</button>
+                  </sc-if>
+                  <sc-if value="{{ m.canSell }}" hint-placeholder-val="{{ false }}">
+                    <button onClick="{{ m.vendre }}" style="border:1px solid #F2DC9E;border-radius:9px;background:#FFF6DB;color:#9A6E00;padding:6px 11px;font-size:11.5px;font-weight:700;cursor:pointer;">Vendre la carte — 100 $</button>
+                  </sc-if>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isPrecontrat }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Precontrats">
+          <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:16px;padding:20px;max-width:820px;">
+            <div style="display:flex;gap:4px;align-items:flex-start;justify-content:space-between;">
+              <sc-for list="{{ wizSteps }}" as="st" hint-placeholder-count="5">
+                <span style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;">
+                  <span style="width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:700;border:2px solid {{ st.cBd }};background:{{ st.cBg }};color:{{ st.cC }};">{{ st.n }}</span>
+                  <span style="font-size:10.5px;text-align:center;color:{{ st.tC }};font-weight:{{ st.tW }};">{{ st.label }}</span>
+                </span>
+              </sc-for>
+            </div>
+            <div style="height:1px;background:#EEF3F4;margin:16px 0;"></div>
+            <sc-if value="{{ wiz1 }}" hint-placeholder-val="{{ true }}">
+              <div style="font-size:15.5px;font-weight:800;">Identité du sportif</div>
+              <div style="font-size:12.5px;color:#7A8E96;margin-top:3px;">Choisissez un sportif du registre — ses informations seront reprises dans le document.</div>
+              <select value="{{ wiz.sportifId }}" onChange="{{ wiz.onSportif }}" style="width:100%;max-width:380px;margin-top:14px;padding:10px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:13px;background:#FFFFFF;color:#16282F;outline:none;">
+                <sc-for list="{{ sportifOptsRaw }}" as="o" hint-placeholder-count="4">
+                  <option value="{{ o.key }}">{{ o.nom }}</option>
+                </sc-for>
+              </select>
+              <div style="display:flex;align-items:center;gap:12px;margin-top:14px;padding:13px 15px;border:1px solid #E1E9EB;border-radius:12px;background:#F7FAFA;max-width:380px;">
+                <span style="width:40px;height:40px;border-radius:50%;background:{{ wiz.spAvBg }};color:#FFFFFF;display:grid;place-items:center;font-size:13px;font-weight:700;">{{ wiz.spInit }}</span>
+                <span>
+                  <span style="display:block;font-size:13.5px;font-weight:700;">{{ wiz.spNom }}</span>
+                  <span style="display:block;font-size:11.5px;color:#7A8E96;">{{ wiz.spSub }} · né le {{ wiz.spNaissance }}</span>
+                </span>
+              </div>
+              <div style="margin-top:20px;">
+                <div style="font-size:11px;font-weight:700;color:#7A8E96;letter-spacing:.08em;">PRÉCONTRATS RÉCENTS</div>
+                <sc-for list="{{ precontrats }}" as="pc" hint-placeholder-count="2">
+                  <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #EEF3F4;flex-wrap:wrap;">
+                    <span style="font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;">{{ pc.num }}</span>
+                    <span style="flex:1;font-size:12.5px;color:#5E7077;">{{ pc.sportif }} — {{ pc.service }}</span>
+                    <span style="font-size:11.5px;color:#9AAAB1;">{{ pc.date }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ wiz2 }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:15.5px;font-weight:800;">Service et objectif</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:14px;">
+                <div>
+                  <div style="font-size:11.5px;font-weight:700;color:#5E7077;letter-spacing:.05em;margin-bottom:5px;">SERVICE DEMANDÉ</div>
+                  <select value="{{ wiz.service }}" onChange="{{ wiz.onService }}" style="width:100%;padding:10px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:13px;background:#FFFFFF;color:#16282F;outline:none;">
+                    <sc-for list="{{ services }}" as="s" hint-placeholder-count="4">
+                      <option value="{{ s.id }}">{{ s.nom }} — {{ s.prix }} $</option>
+                    </sc-for>
+                  </select>
+                </div>
+              </div>
+              <div style="margin-top:14px;">
+                <div style="font-size:11.5px;font-weight:700;color:#5E7077;letter-spacing:.05em;margin-bottom:5px;">OBJECTIF DE L'ACCOMPAGNEMENT</div>
+                <textarea rows="3" value="{{ wiz.objectif }}" onChange="{{ wiz.onObjectif }}" placeholder="Ex. : préparation et placement en stage d'essai européen…" style="width:100%;padding:10px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:13px;background:#FFFFFF;color:#16282F;outline:none;resize:vertical;"></textarea>
+              </div>
+            </sc-if>
+            <sc-if value="{{ wiz3 }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:15.5px;font-weight:800;">Durée et conditions</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:14px;">
+                <div>
+                  <div style="font-size:11.5px;font-weight:700;color:#5E7077;letter-spacing:.05em;margin-bottom:5px;">DURÉE</div>
+                  <select value="{{ wiz.duree }}" onChange="{{ wiz.onDuree }}" style="width:100%;padding:10px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:13px;background:#FFFFFF;color:#16282F;outline:none;">
+                    <option value="6 mois">6 mois</option>
+                    <option value="12 mois">12 mois</option>
+                    <option value="24 mois">24 mois</option>
+                    <option value="36 mois">36 mois</option>
+                  </select>
+                </div>
+                <div>
+                  <div style="font-size:11.5px;font-weight:700;color:#5E7077;letter-spacing:.05em;margin-bottom:5px;">DÉBUT</div>
+                  <input value="{{ wiz.debut }}" onChange="{{ wiz.onDebut }}" style="width:100%;padding:10px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:13px;background:#FFFFFF;color:#16282F;outline:none;" />
+                </div>
+              </div>
+              <div style="margin-top:14px;">
+                <div style="font-size:11.5px;font-weight:700;color:#5E7077;letter-spacing:.05em;margin-bottom:5px;">CONDITIONS PARTICULIÈRES (OPTIONNEL)</div>
+                <textarea rows="3" value="{{ wiz.conditions }}" onChange="{{ wiz.onConditions }}" placeholder="Conditions spécifiques, engagements des parties…" style="width:100%;padding:10px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:13px;background:#FFFFFF;color:#16282F;outline:none;resize:vertical;"></textarea>
+              </div>
+            </sc-if>
+            <sc-if value="{{ wiz4 }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:15.5px;font-weight:800;">Aperçu du document</div>
+              <div style="border:1px solid #E1E9EB;border-radius:12px;margin-top:14px;padding:clamp(20px,4vw,38px);background:#FFFFFF;box-shadow:0 10px 30px rgba(10,22,27,.07);">
+                <div style="text-align:center;">
+                  <img src="project/assets/logo-lockup.png" alt="Ndembo Kin Connect SARL" style="width:92px;height:auto;" />
+                  <div style="font-size:15px;font-weight:800;letter-spacing:.06em;margin-top:10px;">PRÉCONTRAT D'ACCOMPAGNEMENT SPORTIF</div>
+                  <div style="font-size:11.5px;color:#7A8E96;margin-top:4px;font-variant-numeric:tabular-nums;">Réf. {{ wiz.ref }} · Kinshasa, le {{ wiz.date }}</div>
+                </div>
+                <div style="display:flex;height:3px;margin:18px 0;border-radius:2px;overflow:hidden;"><span style="flex:1;background:#45C0E8;"></span><span style="flex:1;background:#E8262C;"></span><span style="flex:1;background:#FFCE2B;"></span></div>
+                <div style="font-size:12.5px;line-height:1.65;color:#22363E;">
+                  <p style="margin:0 0 10px;">Entre <strong>Ndembo Kin Connect SARL</strong>, agence de management sportif, dont le siège est à Kinshasa — Gombe (ci-après « l'Agence »), et <strong>{{ wiz.spNom }}</strong>, {{ wiz.spSub }}, né le {{ wiz.spNaissance }}, joignable au {{ wiz.spTel }} (ci-après « le Sportif »).</p>
+                  <p style="margin:0 0 6px;"><strong>Article 1 — Objet.</strong> L'Agence accompagne le Sportif dans le cadre du service « {{ wiz.svcNom }} », avec pour objectif : {{ wiz.objectifTxt }}</p>
+                  <p style="margin:0 0 6px;"><strong>Article 2 — Durée.</strong> Le présent accompagnement est conclu pour une durée de {{ wiz.duree }}, à compter du {{ wiz.debut }}.</p>
+                  <p style="margin:0 0 6px;"><strong>Article 3 — Honoraires.</strong> Le service est facturé {{ wiz.svcPrix }}, selon les conditions tarifaires en vigueur à l'Agence.</p>
+                  <p style="margin:0;"><strong>Article 4 — Conditions.</strong> {{ wiz.conditionsTxt }}</p>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:30px;">
+                  <span>
+                    <span style="display:block;height:1px;background:#B9C9CE;"></span>
+                    <span style="display:block;font-size:11px;color:#7A8E96;margin-top:6px;">Pour l'Agence — Ndembo Kin Connect SARL</span>
+                  </span>
+                  <span>
+                    <span style="display:block;height:1px;background:#B9C9CE;"></span>
+                    <span style="display:block;font-size:11px;color:#7A8E96;margin-top:6px;">Le Sportif — {{ wiz.spNom }}</span>
+                  </span>
+                </div>
+                <div style="font-size:10px;color:#9AAAB1;margin-top:22px;font-style:italic;text-align:center;">Document interne d'intention — ne constitue pas un contrat juridique formel.</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ wiz5 }}" hint-placeholder-val="{{ false }}">
+              <div style="text-align:center;padding:26px 10px;">
+                <span style="width:56px;height:56px;border-radius:50%;background:#E1F3E9;display:inline-grid;place-items:center;">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F8A5B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6.5 9.5 17l-5-5"></path></svg>
+                </span>
+                <div style="font-size:17px;font-weight:800;margin-top:14px;">Précontrat {{ wiz.ref }} généré</div>
+                <div style="font-size:13px;color:#7A8E96;margin-top:5px;">{{ wiz.spNom }} — {{ wiz.svcNom }}</div>
+                <div style="display:flex;gap:9px;justify-content:center;margin-top:20px;flex-wrap:wrap;">
+                  <button onClick="{{ wizPdf }}" style="border:none;border-radius:10px;background:#173A47;color:#FFFFFF;padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;" style-hover="background:#0F2E39;">Télécharger le PDF</button>
+                  <button onClick="{{ wizVoirSportif }}" style="border:1px solid #D3DEE2;border-radius:10px;background:#FFFFFF;color:#173A47;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;" style-hover="background:#F2F6F7;">Voir la fiche du sportif</button>
+                  <button onClick="{{ wizReset }}" style="border:1px solid #D3DEE2;border-radius:10px;background:#FFFFFF;color:#173A47;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;" style-hover="background:#F2F6F7;">Nouveau précontrat</button>
+                </div>
+              </div>
+            </sc-if>
+            <div style="display:flex;gap:9px;justify-content:space-between;margin-top:18px;padding-top:14px;border-top:1px solid #EEF3F4;">
+              <sc-if value="{{ wizCanPrev }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ wizPrev }}" style="border:1px solid #D3DEE2;border-radius:10px;background:#FFFFFF;color:#173A47;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;" style-hover="background:#F2F6F7;">Précédent</button>
+              </sc-if>
+              <span style="flex:1;"></span>
+              <sc-if value="{{ wiz4 }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ wizGen }}" style="border:none;border-radius:10px;background:#1F8A5B;color:#FFFFFF;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;" style-hover="background:#17714A;">Générer le précontrat</button>
+              </sc-if>
+              <sc-if value="{{ wiz1 }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ wizNext }}" style="border:none;border-radius:10px;background:#173A47;color:#FFFFFF;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;" style-hover="background:#0F2E39;">Continuer</button>
+              </sc-if>
+              <sc-if value="{{ wiz2 }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ wizNext }}" style="border:none;border-radius:10px;background:#173A47;color:#FFFFFF;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;" style-hover="background:#0F2E39;">Continuer</button>
+              </sc-if>
+              <sc-if value="{{ wiz3 }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ wizNext }}" style="border:none;border-radius:10px;background:#173A47;color:#FFFFFF;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;" style-hover="background:#0F2E39;">Voir l'aperçu</button>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isRapports }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Rapports">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
+              <sc-for list="{{ perChips }}" as="t" hint-placeholder-count="3">
+                <button onClick="{{ t.go }}" style="border:1px solid {{ t.bd }};border-radius:999px;background:{{ t.b }};color:{{ t.c }};padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;">{{ t.label }}</button>
+              </sc-for>
+            </div>
+            <div style="flex:1;"></div>
+            <button onClick="{{ exportPdf }}" style="border:1px solid #D3DEE2;border-radius:10px;background:#FFFFFF;color:#173A47;padding:9px 13px;font-size:12.5px;font-weight:600;cursor:pointer;" style-hover="background:#F2F6F7;">Export PDF</button>
+            <button onClick="{{ exportCsv }}" style="border:1px solid #D3DEE2;border-radius:10px;background:#FFFFFF;color:#173A47;padding:9px 13px;font-size:12.5px;font-weight:600;cursor:pointer;" style-hover="background:#F2F6F7;">Export CSV</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:11px;margin-top:14px;">
+            <sc-for list="{{ rapKpis }}" as="k" hint-placeholder-count="3">
+              <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:15px 16px;">
+                <div style="font-size:11px;font-weight:700;color:#7A8E96;letter-spacing:.06em;text-transform:uppercase;">{{ k.label }}</div>
+                <div style="font-size:24px;font-weight:800;letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums;">{{ k.val }}</div>
+                <div style="font-size:11.5px;color:#7A8E96;margin-top:3px;">{{ k.sub }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:13px;margin-top:14px;align-items:start;">
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:14.5px;font-weight:700;">Chiffre d'affaires par service</div>
+              <div style="margin-top:12px;display:flex;flex-direction:column;gap:11px;">
+                <sc-for list="{{ caBars }}" as="b" hint-placeholder-count="5">
+                  <div>
+                    <div style="display:flex;justify-content:space-between;gap:10px;font-size:12px;">
+                      <span style="font-weight:600;color:#33474F;">{{ b.label }}</span>
+                      <span style="font-weight:700;font-variant-numeric:tabular-nums;">{{ b.val }}</span>
+                    </div>
+                    <div style="height:8px;border-radius:99px;background:#EDF2F3;margin-top:5px;overflow:hidden;">
+                      <span style="display:block;height:100%;border-radius:99px;width:{{ b.pct }};background:{{ b.color }};"></span>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:13px;">
+              <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+                <div style="font-size:14.5px;font-weight:700;">Projets par statut</div>
+                <div style="margin-top:8px;">
+                  <sc-for list="{{ statutBars }}" as="b" hint-placeholder-count="6">
+                    <div style="display:flex;align-items:center;gap:10px;padding:7px 0;">
+                      <span style="width:88px;flex-shrink:0;padding:2px 9px;border-radius:999px;font-size:10.5px;font-weight:700;text-align:center;background:{{ b.bg }};color:{{ b.c }};">{{ b.label }}</span>
+                      <span style="flex:1;height:8px;border-radius:99px;background:#EDF2F3;overflow:hidden;">
+                        <span style="display:block;height:100%;border-radius:99px;width:{{ b.pct }};background:{{ b.c }};"></span>
+                      </span>
+                      <span style="width:18px;text-align:right;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;">{{ b.count }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+                <div style="font-size:14.5px;font-weight:700;">Ventes de cartes membres</div>
+                <div style="display:flex;align-items:flex-end;gap:10px;height:110px;margin-top:14px;">
+                  <sc-for list="{{ ventes }}" as="v" hint-placeholder-count="6">
+                    <span style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end;">
+                      <span style="font-size:11px;font-weight:700;color:#5E7077;font-variant-numeric:tabular-nums;">{{ v.v }}</span>
+                      <span style="display:block;width:100%;max-width:34px;border-radius:6px 6px 3px 3px;background:#FFCE2B;height:{{ v.h }};"></span>
+                      <span style="font-size:10.5px;color:#9AAAB1;font-weight:600;">{{ v.m }}</span>
+                    </span>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:#9AAAB1;margin-top:10px;">Données de démonstration — période « {{ screenTitle }} » indicative.</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isParametres }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Parametres">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:13px;align-items:start;">
+            <div style="display:flex;flex-direction:column;gap:13px;">
+              <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+                <div style="font-size:14.5px;font-weight:700;">Agence</div>
+                <div style="display:flex;gap:14px;margin-top:12px;align-items:center;">
+                  <img src="project/assets/logo-mark.png" alt="" style="width:54px;height:auto;border-radius:10px;border:1px solid #EEF3F4;" />
+                  <div>
+                    <div style="font-size:13.5px;font-weight:700;">Ndembo Kin Connect SARL</div>
+                    <div style="font-size:12px;color:#7A8E96;margin-top:2px;">12, av. de la Libération — Gombe, Kinshasa</div>
+                    <div style="font-size:12px;color:#7A8E96;">contact@ndembokin.com · +243 81 000 0000</div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;">
+                  <span style="flex:1;min-width:120px;">
+                    <span style="display:block;font-size:10.5px;font-weight:700;color:#9AAAB1;letter-spacing:.08em;">RCCM</span>
+                    <span style="display:block;font-size:12.5px;font-weight:600;margin-top:2px;">CD/KNG/RCCM/26-B-01234</span>
+                  </span>
+                  <span style="flex:1;min-width:80px;">
+                    <span style="display:block;font-size:10.5px;font-weight:700;color:#9AAAB1;letter-spacing:.08em;">DEVISE</span>
+                    <span style="display:block;font-size:12.5px;font-weight:600;margin-top:2px;">USD ($)</span>
+                  </span>
+                  <span style="flex:1;min-width:80px;">
+                    <span style="display:block;font-size:10.5px;font-weight:700;color:#9AAAB1;letter-spacing:.08em;">LANGUE</span>
+                    <span style="display:block;font-size:12.5px;font-weight:600;margin-top:2px;">Français</span>
+                  </span>
+                </div>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+                <div style="font-size:14.5px;font-weight:700;">Facturation</div>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:13px;">
+                  <div onClick="{{ toggleTvaDefaut }}" style="width:40px;height:22px;border-radius:99px;position:relative;cursor:pointer;transition:background .2s;background:{{ tvaBg }};">
+                    <span style="position:absolute;top:3px;width:16px;height:16px;border-radius:50%;background:#FFFFFF;transition:left .2s;left:{{ tvaLeft }};"></span>
+                  </div>
+                  <span style="font-size:13px;font-weight:600;color:#33474F;">Appliquer la TVA par défaut sur les nouveaux documents</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:13px;">
+                  <span style="font-size:12.5px;color:#5E7077;font-weight:600;">Taux de TVA</span>
+                  <input type="number" value="{{ tvaTaux }}" onChange="{{ onTvaTaux }}" style="width:74px;padding:8px 10px;border:1px solid #D3DEE2;border-radius:9px;font-size:13px;text-align:center;outline:none;color:#16282F;" />
+                  <span style="font-size:12.5px;color:#5E7077;">%</span>
+                </div>
+                <div style="font-size:11px;font-weight:700;color:#7A8E96;letter-spacing:.08em;margin-top:16px;">PAIEMENTS ACCEPTÉS</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+                  <sc-for list="{{ paiements }}" as="p" hint-placeholder-count="5">
+                    <span style="padding:5px 12px;border-radius:999px;font-size:11.5px;font-weight:600;background:#ECF1F2;color:#44606B;">{{ p }}</span>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:14.5px;font-weight:700;">Services et tarifs</div>
+              <div style="font-size:12px;color:#7A8E96;margin-top:2px;">Les prix alimentent les devis, factures et précontrats.</div>
+              <div style="margin-top:6px;">
+                <sc-for list="{{ servicesVm }}" as="s" hint-placeholder-count="8">
+                  <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid #EEF3F4;">
+                    <span style="flex:1;min-width:0;">
+                      <span style="display:block;font-size:13px;font-weight:600;">{{ s.nom }}</span>
+                      <span style="display:block;font-size:11px;color:#9AAAB1;">{{ s.unite }}</span>
+                    </span>
+                    <input type="number" value="{{ s.prix }}" onChange="{{ s.onPrix }}" style="width:84px;padding:8px 10px;border:1px solid #D3DEE2;border-radius:9px;font-size:13px;text-align:right;outline:none;color:#16282F;font-variant-numeric:tabular-nums;" />
+                    <span style="font-size:12.5px;color:#5E7077;font-weight:700;">$</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:14.5px;font-weight:700;">Rôles et accès</div>
+              <div style="margin-top:6px;">
+                <sc-for list="{{ rolesPerm }}" as="r" hint-placeholder-count="3">
+                  <div style="padding:12px 0;border-top:1px solid #EEF3F4;">
+                    <div style="font-size:13.5px;font-weight:700;">{{ r.titre }}</div>
+                    <div style="font-size:11.5px;color:#7A8E96;margin-top:1px;">{{ r.sub }}</div>
+                    <div style="margin-top:7px;display:flex;flex-direction:column;gap:4px;">
+                      <sc-for list="{{ r.items }}" as="i" hint-placeholder-count="3">
+                        <span style="display:flex;gap:8px;align-items:flex-start;font-size:12px;color:#44606B;">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0E97C4" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px;"><path d="M20 6.5 9.5 17l-5-5"></path></svg>
+                          <span>{{ i }}</span>
+                        </span>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isEspacePart }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Espace Partenaire">
+          <div style="display:flex;align-items:center;gap:12px;background:#10242D;border-radius:14px;padding:14px 18px;color:#FFFFFF;flex-wrap:wrap;">
+            <span style="width:40px;height:40px;border-radius:11px;background:rgba(84,199,236,.18);color:#54C7EC;display:grid;place-items:center;font-size:13px;font-weight:700;">CL</span>
+            <span style="flex:1;min-width:160px;">
+              <span style="display:block;font-size:14.5px;font-weight:700;">{{ partNom }}</span>
+              <span style="display:block;font-size:11.5px;color:#9FB6BF;">{{ partType }} · espace en lecture</span>
+            </span>
+            <button onClick="{{ backAdmin }}" style="border:1px solid rgba(255,255,255,.25);border-radius:10px;background:transparent;color:#FFFFFF;padding:8px 13px;font-size:12px;font-weight:700;cursor:pointer;" style-hover="background:rgba(255,255,255,.08);">Revenir en Admin</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:11px;margin-top:13px;">
+            <sc-for list="{{ partKpis }}" as="k" hint-placeholder-count="3">
+              <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:14px 16px;">
+                <div style="font-size:11px;font-weight:700;color:#7A8E96;letter-spacing:.06em;text-transform:uppercase;">{{ k.l }}</div>
+                <div style="font-size:24px;font-weight:800;margin-top:4px;font-variant-numeric:tabular-nums;">{{ k.v }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:13px;margin-top:13px;align-items:start;">
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:14.5px;font-weight:700;">Mes projets</div>
+              <sc-for list="{{ partProjets }}" as="p" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid #EEF3F4;">
+                  <span style="flex:1;min-width:0;">
+                    <span style="display:block;font-size:13px;font-weight:600;">{{ p.titre }}</span>
+                    <span style="display:block;font-size:11.5px;color:#7A8E96;">{{ p.typeLabel }} · {{ p.date }}</span>
+                  </span>
+                  <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:{{ p.stBg }};color:{{ p.stC }};">{{ p.stLabel }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:14.5px;font-weight:700;">Sportifs liés</div>
+              <sc-for list="{{ partSportifs }}" as="s" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid #EEF3F4;">
+                  <span style="width:32px;height:32px;border-radius:50%;background:{{ s.avBg }};color:#FFFFFF;display:grid;place-items:center;font-size:11px;font-weight:700;">{{ s.init }}</span>
+                  <span>
+                    <span style="display:block;font-size:13px;font-weight:600;">{{ s.nom }}</span>
+                    <span style="display:block;font-size:11.5px;color:#7A8E96;">{{ s.sub }}</span>
+                  </span>
+                </div>
+              </sc-for>
+              <div style="font-size:14.5px;font-weight:700;margin-top:16px;">Mes documents</div>
+              <sc-for list="{{ partDocs }}" as="d" hint-placeholder-count="2">
+                <div onClick="{{ d.preview }}" style="display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid #EEF3F4;cursor:pointer;">
+                  <span style="flex:1;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;">{{ d.num }}</span>
+                  <span style="font-size:12px;color:#7A8E96;">{{ d.total }}</span>
+                  <span style="padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:700;background:{{ d.stBg }};color:{{ d.stC }};">{{ d.stL }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isEspaceSp }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Espace Sportif">
+          <div style="display:flex;align-items:center;gap:12px;background:#10242D;border-radius:14px;padding:14px 18px;color:#FFFFFF;flex-wrap:wrap;">
+            <span style="width:40px;height:40px;border-radius:50%;background:{{ espSp.avBg }};color:#FFFFFF;display:grid;place-items:center;font-size:13px;font-weight:700;">{{ espSp.init }}</span>
+            <span style="flex:1;min-width:160px;">
+              <span style="display:block;font-size:14.5px;font-weight:700;">{{ espSp.nom }}</span>
+              <span style="display:block;font-size:11.5px;color:#9FB6BF;">{{ espSp.sub }} · mon espace</span>
+            </span>
+            <button onClick="{{ backAdmin }}" style="border:1px solid rgba(255,255,255,.25);border-radius:10px;background:transparent;color:#FFFFFF;padding:8px 13px;font-size:12px;font-weight:700;cursor:pointer;" style-hover="background:rgba(255,255,255,.08);">Revenir en Admin</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:13px;margin-top:13px;align-items:start;">
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="font-size:14.5px;font-weight:700;">Mon abonnement</div>
+                <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:{{ espSp.cBg }};color:{{ espSp.cC }};">{{ espSp.cL }}</span>
+              </div>
+              <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap;">
+                <span style="flex:1;min-width:110px;">
+                  <span style="display:block;font-size:10.5px;font-weight:700;color:#9AAAB1;letter-spacing:.08em;">N° MEMBRE</span>
+                  <span style="display:block;font-size:13px;font-weight:700;margin-top:2px;">{{ espSp.num }}</span>
+                </span>
+                <span style="flex:1;min-width:110px;">
+                  <span style="display:block;font-size:10.5px;font-weight:700;color:#9AAAB1;letter-spacing:.08em;">VALABLE JUSQU'AU</span>
+                  <span style="display:block;font-size:13px;font-weight:700;margin-top:2px;">{{ espSp.expire }}</span>
+                </span>
+              </div>
+              <div style="font-size:14.5px;font-weight:700;margin-top:16px;">Mes projets</div>
+              <sc-for list="{{ espSp.projets }}" as="p" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid #EEF3F4;">
+                  <span style="flex:1;min-width:0;">
+                    <span style="display:block;font-size:13px;font-weight:600;">{{ p.titre }}</span>
+                    <span style="display:block;font-size:11.5px;color:#7A8E96;">{{ p.typeLabel }} · {{ p.date }}</span>
+                  </span>
+                  <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:{{ p.stBg }};color:{{ p.stC }};">{{ p.stLabel }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #E1E9EB;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:14.5px;font-weight:700;">Mes documents</div>
+              <sc-for list="{{ espSp.docs }}" as="d" hint-placeholder-count="2">
+                <div onClick="{{ d.preview }}" style="display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid #EEF3F4;cursor:pointer;">
+                  <span style="flex:1;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;">{{ d.num }}</span>
+                  <span style="font-size:12px;color:#7A8E96;">{{ d.typeLabel }} · {{ d.date }}</span>
+                  <span style="padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:700;background:{{ d.stBg }};color:{{ d.stC }};">{{ d.stL }}</span>
+                </div>
+              </sc-for>
+              <div style="margin-top:12px;padding:10px 13px;border-radius:10px;background:#F2F8FA;font-size:11.5px;color:#44606B;line-height:1.5;">Votre conseiller : Christelle Makiese · +243 81 000 0000</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+  <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:0;right:0;bottom:0;z-index:45;background:#FFFFFF;border-top:1px solid #E0E8EA;display:flex;padding:6px 6px calc(8px + env(safe-area-inset-bottom));">
+      <div onClick="{{ mt.dash.go }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 0;cursor:pointer;color:{{ mt.dash.c }};">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path></svg>
+        <span style="font-size:10px;font-weight:700;">Accueil</span>
+      </div>
+      <div onClick="{{ mt.projets.go }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 0;cursor:pointer;color:{{ mt.projets.c }};">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="4" width="4.8" height="16" rx="1.2"></rect><rect x="9.8" y="4" width="4.8" height="11" rx="1.2"></rect><rect x="16.1" y="4" width="4.8" height="7" rx="1.2"></rect></svg>
+        <span style="font-size:10px;font-weight:700;">Projets</span>
+      </div>
+      <div onClick="{{ mt.sportifs.go }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 0;cursor:pointer;color:{{ mt.sportifs.c }};">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"></circle><path d="M4.5 20.5c.8-3.6 3.9-5.5 7.5-5.5s6.7 1.9 7.5 5.5"></path></svg>
+        <span style="font-size:10px;font-weight:700;">Sportifs</span>
+      </div>
+      <div onClick="{{ mt.docs.go }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 0;cursor:pointer;color:{{ mt.docs.c }};">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"></path><path d="M14 3v4h4"></path></svg>
+        <span style="font-size:10px;font-weight:700;">Docs</span>
+      </div>
+      <div onClick="{{ mt.plus.go }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 0;cursor:pointer;color:{{ mt.plus.c }};">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+        <span style="font-size:10px;font-weight:700;">Plus</span>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ selProj }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeProjet }}" style="position:fixed;inset:0;z-index:60;background:rgba(10,22,27,.45);animation:fadeIn .2s ease;"></div>
+    <div style="position:fixed;top:0;right:0;bottom:0;width:min(430px,100vw);z-index:61;background:#FFFFFF;box-shadow:-14px 0 44px rgba(10,22,27,.2);display:flex;flex-direction:column;animation:slideIn .24s ease;">
+      <div style="padding:18px 20px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+        <span style="display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:{{ selProj.typeBg }};color:{{ selProj.typeC }};">{{ selProj.typeLabel }}</span>
+        <button onClick="{{ closeProjet }}" style="border:none;background:#ECF1F2;border-radius:9px;width:30px;height:30px;cursor:pointer;display:grid;place-items:center;color:#5E7077;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+        </button>
+      </div>
+      <div style="padding:10px 20px 0;font-size:17px;font-weight:800;line-height:1.35;">{{ selProj.titre }}</div>
+      <div style="padding:12px 20px 0;display:flex;align-items:center;gap:8px;">
+        <span style="padding:4px 12px;border-radius:999px;font-size:11.5px;font-weight:700;background:{{ selProj.stBg }};color:{{ selProj.stC }};">{{ selProj.stLabel }}</span>
+        <sc-if value="{{ selProj.canBack }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ selProj.reculer }}" title="Statut précédent" style="border:1px solid #D3DEE2;background:#FFFFFF;border-radius:8px;width:27px;height:27px;cursor:pointer;display:grid;place-items:center;color:#5E7077;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14.5 6-6 6 6 6"></path></svg>
+          </button>
+        </sc-if>
+        <sc-if value="{{ selProj.canAdvance }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ selProj.avancer }}" title="Statut suivant" style="border:1px solid #D3DEE2;background:#FFFFFF;border-radius:8px;width:27px;height:27px;cursor:pointer;display:grid;place-items:center;color:#5E7077;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9.5 6 6 6-6 6"></path></svg>
+          </button>
+        </sc-if>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:8px 20px 20px;">
+        <div style="margin-top:10px;">
+          <div style="display:flex;gap:12px;padding:9px 0;border-top:1px solid #EEF3F4;">
+            <span style="width:110px;flex-shrink:0;font-size:12px;color:#7A8E96;font-weight:600;">Sportif</span>
+            <span style="font-size:12.5px;font-weight:500;color:#22363E;">{{ selProj.sportifNom }}</span>
+          </div>
+          <div style="display:flex;gap:12px;padding:9px 0;border-top:1px solid #EEF3F4;">
+            <span style="width:110px;flex-shrink:0;font-size:12px;color:#7A8E96;font-weight:600;">Partenaire</span>
+            <span style="font-size:12.5px;font-weight:500;color:#22363E;">{{ selProj.partenaireNom }}</span>
+          </div>
+          <div style="display:flex;gap:12px;padding:9px 0;border-top:1px solid #EEF3F4;">
+            <span style="width:110px;flex-shrink:0;font-size:12px;color:#7A8E96;font-weight:600;">Responsable</span>
+            <span style="font-size:12.5px;font-weight:500;color:#22363E;">{{ selProj.resp }}</span>
+          </div>
+          <div style="display:flex;gap:12px;padding:9px 0;border-top:1px solid #EEF3F4;">
+            <span style="width:110px;flex-shrink:0;font-size:12px;color:#7A8E96;font-weight:600;">Début</span>
+            <span style="font-size:12.5px;font-weight:500;color:#22363E;font-variant-numeric:tabular-nums;">{{ selProj.debut }}</span>
+          </div>
+          <div style="display:flex;gap:12px;padding:9px 0;border-top:1px solid #EEF3F4;border-bottom:1px solid #EEF3F4;">
+            <span style="width:110px;flex-shrink:0;font-size:12px;color:#7A8E96;font-weight:600;">Échéance</span>
+            <span style="font-size:12.5px;font-weight:500;color:#22363E;font-variant-numeric:tabular-nums;">{{ selProj.fin }}</span>
+          </div>
+        </div>
+        <div style="margin-top:16px;">
+          <div style="font-size:11px;font-weight:700;color:#7A8E96;letter-spacing:.08em;">NOTE</div>
+          <div style="margin-top:7px;padding:12px 14px;border-radius:11px;background:#F7FAFA;font-size:12.5px;line-height:1.55;color:#33474F;">{{ selProj.note }}</div>
+        </div>
+        <sc-if value="{{ selProj.hasSportif }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ selProj.openSportif }}" style="margin-top:14px;border:1px solid #D3DEE2;border-radius:10px;background:#FFFFFF;color:#173A47;padding:9px 13px;font-size:12.5px;font-weight:600;cursor:pointer;width:100%;" style-hover="background:#F2F6F7;">Voir la fiche du sportif</button>
+        </sc-if>
+      </div>
+      <div style="padding:14px 20px;border-top:1px solid #EEF3F4;display:flex;gap:9px;flex-wrap:wrap;">
+        <sc-if value="{{ selProj.canAdvance }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ selProj.avancer }}" style="flex:1;border:none;border-radius:10px;background:#173A47;color:#FFFFFF;padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;" style-hover="background:#0F2E39;">{{ selProj.nextLabel }}</button>
+        </sc-if>
+        <sc-if value="{{ selProj.canCancel }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ selProj.annuler }}" style="border:1px solid #F3C4C6;border-radius:10px;background:#FFFFFF;color:#C9252B;padding:11px 14px;font-size:13px;font-weight:600;cursor:pointer;" style-hover="background:#FBE5E5;">Annuler le projet</button>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ prev }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:70;background:rgba(10,22,27,.5);display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;animation:fadeIn .2s ease;">
+      <div style="background:#FFFFFF;width:min(680px,100%);border-radius:16px;overflow:hidden;animation:fadeUp .22s ease;margin:auto;">
+        <div style="display:flex;align-items:center;gap:9px;padding:13px 16px;border-bottom:1px solid #EEF3F4;flex-wrap:wrap;">
+          <span style="font-size:13.5px;font-weight:800;">{{ prev.num }}</span>
+          <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:{{ prev.stBg }};color:{{ prev.stC }};">{{ prev.stL }}</span>
+          <span style="flex:1;"></span>
+          <sc-if value="{{ prev.canConvert }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ prev.convertir }}" style="border:1px solid #BBE2CD;border-radius:9px;background:#E1F3E9;color:#1F8A5B;padding:7px 12px;font-size:11.5px;font-weight:700;cursor:pointer;">Convertir en facture</button>
+          </sc-if>
+          <sc-if value="{{ prev.canPay }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ prev.payer }}" style="border:1px solid #BBE2CD;border-radius:9px;background:#E1F3E9;color:#1F8A5B;padding:7px 12px;font-size:11.5px;font-weight:700;cursor:pointer;">Marquer payée</button>
+          </sc-if>
+          <button onClick="{{ prev.print }}" style="border:1px solid #D3DEE2;border-radius:9px;background:#FFFFFF;color:#173A47;padding:7px 12px;font-size:11.5px;font-weight:700;cursor:pointer;" style-hover="background:#F2F6F7;">Imprimer / PDF</button>
+          <button onClick="{{ prev.close }}" style="border:none;background:#ECF1F2;border-radius:9px;width:30px;height:30px;cursor:pointer;display:grid;place-items:center;color:#5E7077;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+          </button>
+        </div>
+        <div style="padding:clamp(22px,5vw,40px);">
+          <div style="display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap;">
+            <img src="project/assets/logo-lockup.png" alt="Ndembo Kin Connect SARL" style="width:104px;height:auto;" />
+            <div style="text-align:right;font-size:11px;color:#5E7077;line-height:1.65;">Ndembo Kin Connect SARL<br />12, av. de la Libération — Gombe, Kinshasa<br />contact@ndembokin.com · +243 81 000 0000<br />RCCM : CD/KNG/RCCM/26-B-01234</div>
+          </div>
+          <div style="display:flex;height:3px;margin:18px 0;border-radius:2px;overflow:hidden;"><span style="flex:1;background:#45C0E8;"></span><span style="flex:1;background:#E8262C;"></span><span style="flex:1;background:#FFCE2B;"></span></div>
+          <div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-end;flex-wrap:wrap;">
+            <div>
+              <div style="font-size:21px;font-weight:800;letter-spacing:.04em;">{{ prev.typeLabel }}</div>
+              <div style="font-size:12px;color:#7A8E96;margin-top:3px;font-variant-numeric:tabular-nums;">{{ prev.num }} · émis le {{ prev.date }}</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:10.5px;font-weight:700;color:#9AAAB1;letter-spacing:.08em;">ADRESSÉ À</div>
+              <div style="font-size:14px;font-weight:700;margin-top:2px;">{{ prev.clientNom }}</div>
+              <div style="font-size:11.5px;color:#7A8E96;">{{ prev.clientSub }}</div>
+            </div>
+          </div>
+          <div style="margin-top:22px;">
+            <div style="display:flex;gap:10px;padding:8px 0;border-bottom:2px solid #142730;font-size:10.5px;font-weight:700;color:#5E7077;letter-spacing:.07em;">
+              <span style="flex:1;">DÉSIGNATION</span>
+              <span style="width:46px;text-align:center;">QTÉ</span>
+              <span style="width:84px;text-align:right;">P.U.</span>
+              <span style="width:90px;text-align:right;">TOTAL</span>
+            </div>
+            <sc-for list="{{ prev.lignes }}" as="l" hint-placeholder-count="1">
+              <div style="display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #EEF3F4;font-size:12.5px;">
+                <span style="flex:1;font-weight:600;color:#22363E;">{{ l.label }}</span>
+                <span style="width:46px;text-align:center;font-variant-numeric:tabular-nums;">{{ l.qte }}</span>
+                <span style="width:84px;text-align:right;font-variant-numeric:tabular-nums;">{{ l.prix }}</span>
+                <span style="width:90px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">{{ l.tot }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:14px;">
+            <div style="width:240px;">
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:#5E7077;padding:3px 0;"><span>Sous-total</span><span style="font-variant-numeric:tabular-nums;">{{ prev.stStr }}</span></div>
+              <sc-if value="{{ prev.tvaOn }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;justify-content:space-between;font-size:12px;color:#5E7077;padding:3px 0;"><span>TVA ({{ prev.tvaTaux }})</span><span style="font-variant-numeric:tabular-nums;">{{ prev.tvaStr }}</span></div>
+              </sc-if>
+              <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:800;padding:8px 0 0;border-top:2px solid #142730;margin-top:6px;"><span>Total</span><span style="font-variant-numeric:tabular-nums;">{{ prev.totStr }}</span></div>
+            </div>
+          </div>
+          <div style="margin-top:24px;padding:11px 14px;border-radius:10px;background:#F7FAFA;font-size:11px;color:#5E7077;line-height:1.6;">Règlement en USD — Orange Money, M-Pesa, Airtel Money, virement Rawbank ou espèces.<br />Document valable 30 jours à compter de la date d'émission.</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ npOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ npClose }}" style="position:fixed;inset:0;z-index:75;background:rgba(10,22,27,.45);animation:fadeIn .18s ease;"></div>
+    <div style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:76;width:min(460px,calc(100vw - 28px));background:#FFFFFF;border-radius:16px;padding:20px;animation:fadeUp .2s ease;box-shadow:0 30px 70px rgba(10,22,27,.3);max-height:88vh;overflow-y:auto;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+        <div style="font-size:16px;font-weight:800;">Nouveau projet</div>
+        <button onClick="{{ npClose }}" style="border:none;background:#ECF1F2;border-radius:9px;width:30px;height:30px;cursor:pointer;display:grid;place-items:center;color:#5E7077;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+        </button>
+      </div>
+      <div style="margin-top:14px;">
+        <div style="font-size:11.5px;font-weight:700;color:#5E7077;letter-spacing:.05em;margin-bottom:5px;">TITRE DU PROJET</div>
+        <input value="{{ np.titre }}" onChange="{{ npTitre }}" placeholder="Ex. : Camp de détection Lemba" style="width:100%;padding:10px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:13px;background:#FFFFFF;color:#16282F;outline:none;" />
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px;">
+        <div>
+          <div style="font-size:11.5px;font-weight:700;color:#5E7077;letter-spacing:.05em;margin-bottom:5px;">TYPE</div>
+          <select value="{{ np.type }}" onChange="{{ npType }}" style="width:100%;padding:10px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:13px;background:#FFFFFF;color:#16282F;outline:none;">
+            <sc-for list="{{ typesOpts }}" as="o" hint-placeholder-count="4">
+              <option value="{{ o.key }}">{{ o.label }}</option>
+            </sc-for>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:11.5px;font-weight:700;color:#5E7077;letter-spacing:.05em;margin-bottom:5px;">RESPONSABLE</div>
+          <input value="{{ np.resp }}" onChange="{{ npResp }}" style="width:100%;padding:10px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:13px;background:#FFFFFF;color:#16282F;outline:none;" />
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px;">
+        <div>
+          <div style="font-size:11.5px;font-weight:700;color:#5E7077;letter-spacing:.05em;margin-bottom:5px;">SPORTIF (OPTIONNEL)</div>
+          <select value="{{ np.sportifId }}" onChange="{{ npSportif }}" style="width:100%;padding:10px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:13px;background:#FFFFFF;color:#16282F;outline:none;">
+            <option value="">— Aucun</option>
+            <sc-for list="{{ sportifOptsRaw }}" as="o" hint-placeholder-count="4">
+              <option value="{{ o.key }}">{{ o.nom }}</option>
+            </sc-for>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:11.5px;font-weight:700;color:#5E7077;letter-spacing:.05em;margin-bottom:5px;">PARTENAIRE (OPTIONNEL)</div>
+          <select value="{{ np.partenaireId }}" onChange="{{ npPartenaire }}" style="width:100%;padding:10px 12px;border:1px solid #D3DEE2;border-radius:10px;font-size:13px;background:#FFFFFF;color:#16282F;outline:none;">
+            <option value="">— Aucun</option>
+            <sc-for list="{{ partOptsRaw }}" as="o" hint-placeholder-count="4">
+              <option value="{{ o.key }}">{{ o.nom }}</option>
+            </sc-for>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;gap:9px;justify-content:flex-end;margin-top:18px;">
+        <button onClick="{{ npClose }}" style="border:1px solid #D3DEE2;border-radius:10px;background:#FFFFFF;color:#173A47;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;" style-hover="background:#F2F6F7;">Annuler</button>
+        <button onClick="{{ npCreer }}" style="border:none;border-radius:10px;background:#173A47;color:#FFFFFF;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;" style-hover="background:#0F2E39;">Créer le projet</button>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeSheet }}" style="position:fixed;inset:0;z-index:48;background:rgba(10,22,27,.45);animation:fadeIn .18s ease;"></div>
+    <div style="position:fixed;left:0;right:0;bottom:0;z-index:49;background:#FFFFFF;border-radius:18px 18px 0 0;padding:14px 16px calc(86px + env(safe-area-inset-bottom));animation:slideUp .22s ease;">
+      <div style="width:38px;height:4px;border-radius:99px;background:#D3DEE2;margin:0 auto 12px;"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <button onClick="{{ goPartenaires }}" style="border:1px solid #E1E9EB;border-radius:12px;background:#FFFFFF;color:#173A47;padding:13px;font-size:13px;font-weight:600;cursor:pointer;text-align:left;">Partenaires</button>
+        <button onClick="{{ goMembres }}" style="border:1px solid #E1E9EB;border-radius:12px;background:#FFFFFF;color:#173A47;padding:13px;font-size:13px;font-weight:600;cursor:pointer;text-align:left;">Membres VIP</button>
+        <button onClick="{{ goPrecontrat }}" style="border:1px solid #E1E9EB;border-radius:12px;background:#FFFFFF;color:#173A47;padding:13px;font-size:13px;font-weight:600;cursor:pointer;text-align:left;">Précontrats</button>
+        <button onClick="{{ goRapports }}" style="border:1px solid #E1E9EB;border-radius:12px;background:#FFFFFF;color:#173A47;padding:13px;font-size:13px;font-weight:600;cursor:pointer;text-align:left;">Rapports</button>
+        <button onClick="{{ goParametres }}" style="border:1px solid #E1E9EB;border-radius:12px;background:#FFFFFF;color:#173A47;padding:13px;font-size:13px;font-weight:600;cursor:pointer;text-align:left;">Paramètres</button>
+      </div>
+      <div style="font-size:10px;font-weight:700;color:#7A8E96;letter-spacing:.12em;margin:14px 0 8px;">VOIR L'APPLICATION COMME</div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <sc-for list="{{ roleRows }}" as="r" hint-placeholder-count="3">
+          <div onClick="{{ r.set }}" style="display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;" style-hover="background:#F2F6F7;">
+            <span style="width:30px;height:30px;border-radius:50%;background:{{ r.avBg }};color:#FFFFFF;display:grid;place-items:center;font-size:11px;font-weight:700;">{{ r.init }}</span>
+            <span style="flex:1;">
+              <span style="display:block;font-size:13px;font-weight:600;">{{ r.nom }}</span>
+              <span style="display:block;font-size:11px;color:#7A8E96;">{{ r.sub }}</span>
+            </span>
+            <sc-if value="{{ r.active }}" hint-placeholder-val="{{ false }}">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0E97C4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6.5 9.5 17l-5-5"></path></svg>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ toastVal }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:50%;bottom:{{ toastBottom }};transform:translateX(-50%);background:#132730;color:#FFFFFF;padding:11px 18px;border-radius:12px;font-size:13px;font-weight:600;z-index:95;box-shadow:0 12px 32px rgba(10,22,27,.32);animation:slideUp .22s ease;display:flex;gap:9px;align-items:center;max-width:calc(100vw - 32px);">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#54C7EC" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M20 6.5 9.5 17l-5-5"></path></svg>
+      <span>{{ toastVal }}</span>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.ORDER = ["brouillon", "en_cours", "en_attente", "valide", "termine"];
+    this.STATUTS = {
+      brouillon: { l: "Brouillon", c: "#5E7077", bg: "#ECF1F2" },
+      en_cours: { l: "En cours", c: "#0B7FA6", bg: "#DFF3FA" },
+      en_attente: { l: "En attente", c: "#9A6E00", bg: "#FFF1C9" },
+      valide: { l: "Validé", c: "#1F8A5B", bg: "#E1F3E9" },
+      termine: { l: "Terminé", c: "#3D5E6C", bg: "#E5EBEE" },
+      annule: { l: "Annulé", c: "#C9252B", bg: "#FBE5E5" }
+    };
+    this.TYPES = {
+      carriere: { l: "Carrière", c: "#0B7FA6", bg: "#DFF3FA" },
+      stage: { l: "Stage", c: "#7C5CBF", bg: "#EFEAF9" },
+      camp: { l: "Camp de détection", c: "#1F8A5B", bg: "#E1F3E9" },
+      relation: { l: "Mise en relation", c: "#9A6E00", bg: "#FFF1C9" },
+      transfert: { l: "Transfert", c: "#C9252B", bg: "#FBE5E5" },
+      event: { l: "Événement", c: "#B05A00", bg: "#FFECD9" },
+      conseil: { l: "Conseil juridique", c: "#3D5E6C", bg: "#E5EBEE" }
+    };
+    this.CARTES = {
+      actif: { l: "Carte active", c: "#1F8A5B", bg: "#E1F3E9" },
+      attente: { l: "En attente", c: "#9A6E00", bg: "#FFF1C9" },
+      expire: { l: "Carte expirée", c: "#C9252B", bg: "#FBE5E5" },
+      preinscrit: { l: "Préinscrit", c: "#5E7077", bg: "#ECF1F2" }
+    };
+    this.DOCST = {
+      brouillon: { l: "Brouillon", c: "#5E7077", bg: "#ECF1F2" },
+      envoye: { l: "Envoyé", c: "#0B7FA6", bg: "#DFF3FA" },
+      accepte: { l: "Accepté", c: "#1F8A5B", bg: "#E1F3E9" },
+      paye: { l: "Payé", c: "#15803D", bg: "#DCFCE7" },
+      annule: { l: "Annulé", c: "#C9252B", bg: "#FBE5E5" }
+    };
+    this.AVC = ["#0E97C4", "#C9252B", "#D9A400", "#1F8A5B", "#44707F", "#7C5CBF", "#B05A00", "#3D5E6C"];
+    this.state = {
+      screen: "dashboard", role: "admin", isMobile: false, search: "",
+      projetVue: "kanban", typeFiltre: "tous", selProjet: null, selSportif: "s1", selPartenaire: null,
+      docTab: "tous", docPreview: null, draft: null,
+      npOpen: false, np: { titre: "", type: "camp", sportifId: "", partenaireId: "", resp: "C. Makiese" },
+      wizStep: 1, wiz: { sportifId: "s1", service: "carriere", objectif: "", duree: "12 mois", debut: "01/07/2026", conditions: "" },
+      membreSel: "s1", sheetOpen: false, roleMenu: false, toast: null,
+      rapPeriode: "annee", tvaDefaut: false, tvaTaux: 25, noteInput: "",
+      docCounter: { devis: 16, facture: 33 }, pcCounter: 8,
+      services: [
+        { id: "vip", nom: "Carte Membre VIP NFC", prix: 100, unite: "carte" },
+        { id: "carriere", nom: "Accompagnement de carrière", prix: 500, unite: "an" },
+        { id: "camp", nom: "Camp de détection", prix: 80, unite: "participant" },
+        { id: "stage", nom: "Stage d'essai international", prix: 1500, unite: "stage" },
+        { id: "relation", nom: "Mise en relation club", prix: 300, unite: "dossier" },
+        { id: "transfert", nom: "Préparation de transfert", prix: 1200, unite: "dossier" },
+        { id: "event", nom: "Organisation d'événement", prix: 2500, unite: "événement" },
+        { id: "conseil", nom: "Conseil juridique sportif", prix: 400, unite: "mission" }
+      ],
+      sportifs: [
+        { id: "s1", nom: "Glody Mbemba", age: 17, naissance: "14/03/2009", tel: "+243 81 234 5671", poste: "Attaquant", club: "AS Vita Club U19", niveau: "Élite jeunes", urgence: "Maman Nzuzi · +243 99 870 1123", objectif: "Stage d'essai en Europe", carte: "actif", num: "NK-2026-014", emise: "14/03/2026", expire: "14/03/2027", notes: [{ txt: "Très bonne progression physique depuis le camp de février.", meta: "02/06/2026 · C. Makiese" }] },
+        { id: "s2", nom: "Pathou Kasongo", age: 19, naissance: "02/11/2006", tel: "+243 89 555 2031", poste: "Milieu offensif", club: "FC Renaissance du Congo", niveau: "Pro D1", urgence: "Frère — Dieu Kasongo · +243 81 440 7789", objectif: "Transfert en championnat européen sous 2 ans", carte: "actif", num: "NK-2025-061", emise: "05/01/2026", expire: "05/01/2027", notes: [{ txt: "Bonne vision de jeu — à exposer aux recruteurs lors du tournoi U23.", meta: "22/05/2026 · C. Makiese" }] },
+        { id: "s3", nom: "Merveille Ilunga", age: 16, naissance: "21/07/2009", tel: "+243 82 410 7789", poste: "Gardien", club: "Académie DCMP", niveau: "Espoir", urgence: "Papa — J. Ilunga · +243 99 320 1144", objectif: "Intégrer un centre de formation professionnel", carte: "attente", num: "NK-2026-027", emise: "", expire: "", notes: [] },
+        { id: "s4", nom: "Jonathan Bompengo", age: 21, naissance: "09/04/2005", tel: "+243 97 660 4412", poste: "Défenseur central", club: "TP Mazembe B", niveau: "Pro D2", urgence: "Oncle — P. Bompengo · +243 84 112 6630", objectif: "Transfert CD Leganés (Espagne)", carte: "expire", num: "NK-2024-008", emise: "30/04/2024", expire: "30/04/2026", notes: [] },
+        { id: "s5", nom: "Exaucé Mavinga", age: 18, naissance: "17/01/2008", tel: "+243 84 220 9043", poste: "Ailier gauche", club: "FC Céleste", niveau: "Élite jeunes", urgence: "Maman — S. Mavinga · +243 90 554 8821", objectif: "Stage d'essai IDA Valencia", carte: "actif", num: "NK-2026-019", emise: "22/05/2026", expire: "22/05/2027", notes: [] },
+        { id: "s6", nom: "Grâce Tshilanda", age: 17, naissance: "28/09/2008", tel: "+243 90 118 3356", poste: "Attaquante", club: "FCF Amani Kin", niveau: "Élite féminine", urgence: "Tante — B. Tshilanda · +243 82 600 4517", objectif: "Sélection nationale U20 féminine", carte: "actif", num: "NK-2026-022", emise: "30/06/2025", expire: "30/06/2026", notes: [] },
+        { id: "s7", nom: "Dan Mukendi", age: 20, naissance: "12/12/2005", tel: "+243 85 774 6520", poste: "Latéral droit", club: "AC Rangers", niveau: "Pro D2", urgence: "Frère — E. Mukendi · +243 89 233 9087", objectif: "Accompagnement de carrière", carte: "preinscrit", num: "", emise: "", expire: "", notes: [] },
+        { id: "s8", nom: "Bénédicte Kalonji", age: 16, naissance: "03/05/2010", tel: "+243 81 902 4467", poste: "Milieu central", club: "Académie Ndembo", niveau: "Détection", urgence: "Maman — A. Kalonji · +243 99 410 2236", objectif: "Détection et formation", carte: "preinscrit", num: "", emise: "", expire: "", notes: [] }
+      ],
+      partenaires: [
+        { id: "p1", nom: "CD Leganés", type: "Club professionnel", ville: "Madrid, Espagne", contact: "Álvaro Ríos", tel: "+34 91 248 8000", email: "rios@cdleganes.es" },
+        { id: "p2", nom: "IDA Valencia", type: "Académie internationale", ville: "Valence, Espagne", contact: "Lucía Ferrer", tel: "+34 96 312 4470", email: "l.ferrer@idavalencia.es" },
+        { id: "p3", nom: "AS Vita Club", type: "Club professionnel", ville: "Kinshasa, RDC", contact: "Papy Lukoki", tel: "+243 89 440 2210", email: "plukoki@asvclub.cd" },
+        { id: "p4", nom: "Strong2Kin", type: "Organisation événementielle", ville: "Kinshasa, RDC", contact: "Héritier Kasa", tel: "+243 82 776 9034", email: "contact@strong2kin.cd" },
+        { id: "p5", nom: "Fondation Héritage Kin", type: "Fondation", ville: "Kinshasa, RDC", contact: "Divine Mbuyi", tel: "+243 99 215 7782", email: "info@heritagekin.org" }
+      ],
+      projets: [
+        { id: "pr1", titre: "Stage IDA Valencia — Glody Mbemba", type: "stage", statut: "en_cours", sportifId: "s1", partenaireId: "p2", resp: "C. Makiese", debut: "02/06/2026", fin: "28/06/2026", note: "Billets et assurance confirmés. Visa obtenu le 27/05. Évaluation finale prévue au retour." },
+        { id: "pr2", titre: "Accompagnement carrière — Pathou Kasongo", type: "carriere", statut: "en_cours", sportifId: "s2", partenaireId: "", resp: "C. Makiese", debut: "05/01/2026", fin: "31/12/2026", note: "Plan de progression 3 ans validé. Point mensuel chaque premier lundi." },
+        { id: "pr3", titre: "Tournoi Élite U17 — Kinshasa", type: "event", statut: "en_cours", sportifId: "", partenaireId: "p4", resp: "H. Kasa", debut: "15/07/2026", fin: "19/07/2026", note: "8 équipes confirmées. Reste : couverture média et désignation des arbitres." },
+        { id: "pr4", titre: "Transfert Jonathan Bompengo → CD Leganés", type: "transfert", statut: "en_attente", sportifId: "s4", partenaireId: "p1", resp: "Me T. Ilunga", debut: "01/08/2026", fin: "", note: "En attente de l'accord du club formateur sur l'indemnité de formation." },
+        { id: "pr5", titre: "Visa sportif — Exaucé Mavinga", type: "conseil", statut: "en_attente", sportifId: "s5", partenaireId: "p2", resp: "Me T. Ilunga", debut: "10/06/2026", fin: "", note: "Dossier déposé à l'ambassade le 10/06. Délai estimé : 3 semaines." },
+        { id: "pr6", titre: "Convention détection AS Vita 2026", type: "relation", statut: "valide", sportifId: "", partenaireId: "p3", resp: "Direction", debut: "01/09/2026", fin: "", note: "Convention signée. Démarrage des détections en septembre." },
+        { id: "pr7", titre: "Camp détection Masina — Édition 3", type: "camp", statut: "brouillon", sportifId: "", partenaireId: "p5", resp: "C. Makiese", debut: "12/09/2026", fin: "14/09/2026", note: "Budget en cours de validation avec la fondation." },
+        { id: "pr8", titre: "Détection académie — Bénédicte Kalonji", type: "camp", statut: "brouillon", sportifId: "s8", partenaireId: "", resp: "C. Makiese", debut: "20/06/2026", fin: "", note: "" },
+        { id: "pr9", titre: "Gala des partenaires 2026", type: "event", statut: "termine", sportifId: "", partenaireId: "p4", resp: "H. Kasa", debut: "30/04/2026", fin: "30/04/2026", note: "120 invités. Très bonnes retombées presse." },
+        { id: "pr10", titre: "Camp détection Masina — Édition 2", type: "camp", statut: "termine", sportifId: "", partenaireId: "p5", resp: "C. Makiese", debut: "14/02/2026", fin: "16/02/2026", note: "35 participants, 4 profils retenus pour suivi." }
+      ],
+      docs: [
+        { id: "d1", num: "FAC-2026-032", type: "facture", clientNom: "IDA Valencia", clientRef: "p2", date: "05/06/2026", tva: false, statut: "envoye", lignes: [{ serviceId: "stage", label: "Stage d'essai international", qte: 2, prix: 1500 }] },
+        { id: "d2", num: "DEV-2026-015", type: "devis", clientNom: "Strong2Kin", clientRef: "p4", date: "03/06/2026", tva: true, statut: "brouillon", lignes: [{ serviceId: "event", label: "Organisation d'événement — Tournoi Élite U17", qte: 1, prix: 2500 }] },
+        { id: "d3", num: "DEV-2026-014", type: "devis", clientNom: "CD Leganés", clientRef: "p1", date: "28/05/2026", tva: false, statut: "envoye", lignes: [{ serviceId: "transfert", label: "Préparation de transfert", qte: 1, prix: 1200 }] },
+        { id: "d4", num: "DEV-2026-013", type: "devis", clientNom: "AS Vita Club", clientRef: "p3", date: "22/05/2026", tva: false, statut: "accepte", lignes: [{ serviceId: "camp", label: "Camp de détection — convention 2026", qte: 40, prix: 80 }] },
+        { id: "d5", num: "FAC-2026-031", type: "facture", clientNom: "Glody Mbemba", clientRef: "s1", date: "14/03/2026", tva: false, statut: "paye", lignes: [{ serviceId: "vip", label: "Carte Membre VIP NFC", qte: 1, prix: 100 }] },
+        { id: "d6", num: "FAC-2026-030", type: "facture", clientNom: "Pathou Kasongo", clientRef: "s2", date: "05/01/2026", tva: false, statut: "paye", lignes: [{ serviceId: "carriere", label: "Accompagnement de carrière (12 mois)", qte: 1, prix: 500 }] },
+        { id: "d7", num: "FAC-2026-028", type: "facture", clientNom: "Fondation Héritage Kin", clientRef: "p5", date: "20/02/2026", tva: false, statut: "paye", lignes: [{ serviceId: "camp", label: "Camp détection Masina — Édition 2", qte: 35, prix: 80 }] },
+        { id: "d8", num: "FAC-2026-029", type: "facture", clientNom: "AC Rangers", clientRef: "", date: "18/04/2026", tva: false, statut: "annule", lignes: [{ serviceId: "relation", label: "Mise en relation club", qte: 1, prix: 300 }] }
+      ],
+      activite: [
+        { txt: "Facture FAC-2026-032 envoyée à IDA Valencia", t: "il y a 2 h", c: "#0E97C4" },
+        { txt: "Passeport de Glody Mbemba ajouté au dossier", t: "il y a 5 h", c: "#1F8A5B" },
+        { txt: "Devis DEV-2026-013 accepté par AS Vita Club", t: "hier", c: "#1F8A5B" },
+        { txt: "Nouvelle préinscription : Bénédicte Kalonji", t: "hier", c: "#D9A400" },
+        { txt: "Projet « Tournoi Élite U17 » passé En cours", t: "il y a 2 j", c: "#0E97C4" },
+        { txt: "La carte NK-2026-022 expire dans 19 jours", t: "il y a 2 j", c: "#C9252B" }
+      ],
+      precontrats: [
+        { num: "PC-2026-007", sportif: "Glody Mbemba", service: "Stage d'essai international", date: "01/06/2026" },
+        { num: "PC-2026-006", sportif: "Pathou Kasongo", service: "Accompagnement de carrière", date: "05/01/2026" }
+      ]
+    };
+  }
+  componentDidMount() {
+    this._onR = () => this.setState({ isMobile: window.innerWidth < 920 });
+    window.addEventListener("resize", this._onR);
+    this._onR();
+  }
+  componentWillUnmount() { window.removeEventListener("resize", this._onR); clearTimeout(this._tt); }
+  notify(msg) { clearTimeout(this._tt); this.setState({ toast: msg }); this._tt = setTimeout(() => this.setState({ toast: null }), 3000); }
+  go(s, extra) { this.setState(Object.assign({ screen: s, role: "admin", sheetOpen: false, roleMenu: false, search: "" }, extra || {})); }
+  mn(n) { return n.toLocaleString("fr-FR").replace(/[\u202F\u00A0]/g, " ") + " $"; }
+  init(nom) { return nom.split(" ").filter(Boolean).map((w) => w[0]).slice(0, 2).join("").toUpperCase(); }
+  avc(id) { let h = 0; const s = String(id); for (let i = 0; i < s.length; i++) h += s.charCodeAt(i); return this.AVC[h % this.AVC.length]; }
+  pd(d) { const p = d.split("/").map(Number); return new Date(p[2], p[1] - 1, p[0]); }
+  docTotaux(d) { const st = d.lignes.reduce((a, l) => a + l.qte * l.prix, 0); const tv = d.tva ? Math.round(st * this.state.tvaTaux) / 100 : 0; return { st, tv, tot: st + tv }; }
+  upProjet(id, patch) { this.setState({ projets: this.state.projets.map((p) => (p.id === id ? Object.assign({}, p, patch) : p)) }); }
+  upDoc(id, patch) { this.setState({ docs: this.state.docs.map((d) => (d.id === id ? Object.assign({}, d, patch) : d)) }); }
+  upSportif(id, patch) { this.setState({ sportifs: this.state.sportifs.map((s) => (s.id === id ? Object.assign({}, s, patch) : s)) }); }
+  setDraft(patch) { this.setState({ draft: Object.assign({}, this.state.draft, patch) }); }
+  setWiz(patch) { this.setState({ wiz: Object.assign({}, this.state.wiz, patch) }); }
+  setNp(patch) { this.setState({ np: Object.assign({}, this.state.np, patch) }); }
+  renouveler(id) {
+    const s = this.state.sportifs.find((x) => x.id === id);
+    const exp = s.expire ? s.expire.slice(0, 6) + (Number(s.expire.slice(-4)) + 1) : "11/06/2027";
+    this.upSportif(id, { carte: "actif", expire: exp, emise: s.emise || "11/06/2026", num: s.num || "NK-2026-0" + (30 + (id.charCodeAt(1) % 60)) });
+    this.notify("Carte de " + s.nom + " active jusqu'au " + exp);
+  }
+  vendreCarte(s) {
+    const svc = this.state.services.find((x) => x.id === "vip");
+    this.setState({ screen: "docEdit", role: "admin", draft: { type: "facture", clientKey: "s:" + s.id, clientNom: s.nom, date: "11/06/2026", tva: false, addSel: "", lignes: [{ serviceId: "vip", label: svc.nom, qte: 1, prix: svc.prix }] } });
+  }
+  convertir(id) {
+    const n = this.state.docCounter.facture;
+    const num = "FAC-2026-0" + n;
+    this.upDoc(id, { type: "facture", num: num, statut: "envoye" });
+    this.setState({ docCounter: { devis: this.state.docCounter.devis, facture: n + 1 } });
+    this.notify("Devis converti en " + num);
+  }
+  vmProj(p) {
+    const t = this.TYPES[p.type], st = this.STATUTS[p.statut];
+    const sp = this.state.sportifs.find((x) => x.id === p.sportifId);
+    const pa = this.state.partenaires.find((x) => x.id === p.partenaireId);
+    const who = sp ? sp.nom : pa ? pa.nom : "Interne";
+    return {
+      id: p.id, titre: p.titre, date: p.debut,
+      typeLabel: t.l, typeC: t.c, typeBg: t.bg,
+      stLabel: st.l, stC: st.c, stBg: st.bg,
+      sub: t.l + " · " + who, resp: p.resp,
+      avInit: this.init(who === "Interne" ? "Ndembo Kin" : who),
+      avBg: this.avc(p.sportifId || p.partenaireId || p.id),
+      open: () => this.setState({ selProjet: p.id })
+    };
+  }
+  vmDocRow(d) {
+    const t = this.docTotaux(d), st = this.DOCST[d.statut];
+    const isDevis = d.type === "devis";
+    return {
+      id: d.id, num: d.num, clientNom: d.clientNom, date: d.date, total: this.mn(t.tot),
+      stL: st.l, stC: st.c, stBg: st.bg,
+      iconBg: isDevis ? "#DFF3FA" : "#E5EBEE", iconC: isDevis ? "#0B7FA6" : "#3D5E6C",
+      typeLabel: isDevis ? "Devis" : "Facture",
+      canConvert: isDevis && (d.statut === "envoye" || d.statut === "accepte"),
+      canPay: !isDevis && d.statut === "envoye",
+      canSend: d.statut === "brouillon",
+      preview: () => this.setState({ docPreview: d.id }),
+      convertir: () => this.convertir(d.id),
+      payer: () => { this.upDoc(d.id, { statut: "paye" }); this.notify("Facture " + d.num + " marquée payée"); },
+      envoyer: () => { this.upDoc(d.id, { statut: "envoye" }); this.notify(d.num + " envoyé — démo"); }
+    };
+  }
+  renderVals() {
+    const S = this.state, ps = this.STATUTS, ts = this.TYPES, cs = this.CARTES, dst = this.DOCST;
+    const q = S.search.trim().toLowerCase();
+    const today = new Date(2026, 5, 11);
+    const navMap = { dashboard: "dash", projets: "projets", sportifs: "sportifs", sportifFiche: "sportifs", partenaires: "partenaires", docs: "docs", docEdit: "docs", membres: "membres", precontrat: "precontrat", rapports: "rapports", parametres: "parametres" };
+    const navKey = navMap[S.screen] || "";
+    const nv = {};
+    ["dash", "projets", "sportifs", "partenaires", "docs", "membres", "precontrat", "rapports", "parametres"].forEach((k) => {
+      const a = k === navKey;
+      nv[k] = { b: a ? "rgba(84,199,236,.16)" : "transparent", c: a ? "#9FE0F4" : "#AFC3CB", w: a ? "700" : "500" };
+    });
+    const titles = { dashboard: "Dashboard", projets: "Projets", sportifs: "Sportifs", sportifFiche: "Fiche sportif", partenaires: "Partenaires", docs: "Devis & Factures", docEdit: "Nouveau document", membres: "Membres VIP", precontrat: "Précontrats", rapports: "Rapports", parametres: "Paramètres", espacePartenaire: "Espace Partenaire", espaceSportif: "Espace Sportif" };
+    const projetsValides = S.projets.filter((p) => p.statut !== "annule");
+    const actifs = S.projets.filter((p) => p.statut === "en_cours" || p.statut === "en_attente").length;
+    const devisEC = S.docs.filter((d) => d.type === "devis" && d.statut !== "annule").length;
+    const acceptes = S.docs.filter((d) => d.type === "devis" && d.statut === "accepte").length;
+    const impayes = S.docs.filter((d) => d.type === "facture" && d.statut === "envoye");
+    const impSum = impayes.reduce((a, d) => a + this.docTotaux(d).tot, 0);
+    const membresActifs = S.sportifs.filter((s) => s.carte === "actif").length;
+    const preinscrits = S.sportifs.filter((s) => s.carte === "preinscrit").length;
+    const encaisse = S.docs.filter((d) => d.statut === "paye").reduce((a, d) => a + this.docTotaux(d).tot, 0);
+    const kpis = [
+      { label: "Projets actifs", val: String(actifs), sub: projetsValides.length + " projets au total", c: "#16282F" },
+      { label: "Devis en cours", val: String(devisEC), sub: acceptes + " accepté à convertir", c: "#0B7FA6" },
+      { label: "Factures impayées", val: String(impayes.length), sub: this.mn(impSum) + " à encaisser", c: "#C9252B" },
+      { label: "Membres VIP actifs", val: String(membresActifs), sub: "carte Elite Club NFC", c: "#1F8A5B" },
+      { label: "Sportifs suivis", val: String(S.sportifs.length), sub: preinscrits + " préinscriptions", c: "#16282F" },
+      { label: "Encaissé 2026", val: this.mn(encaisse), sub: "factures payées", c: "#16282F" }
+    ];
+    const dashProjets = S.projets.filter((p) => p.statut === "en_cours").slice(0, 4).map((p) => this.vmProj(p));
+    const ren = S.sportifs.filter((s) => s.carte === "expire" || s.carte === "attente" || (s.carte === "actif" && s.expire && this.pd(s.expire) - today < 35 * 864e5)).map((s) => ({
+      nom: s.nom, init: this.init(s.nom), avBg: this.avc(s.id),
+      sub: s.carte === "expire" ? "Expirée le " + s.expire : s.carte === "attente" ? "Émission en cours" : "Expire le " + s.expire,
+      btn: s.carte === "attente" ? "Activer" : "Renouveler",
+      act: () => this.renouveler(s.id)
+    }));
+    const matchProj = (p) => (S.typeFiltre === "tous" || p.type === S.typeFiltre) && (!q || p.titre.toLowerCase().includes(q));
+    const kanbanCols = this.ORDER.map((k) => {
+      const cards = S.projets.filter((p) => p.statut === k && matchProj(p)).map((p) => this.vmProj(p));
+      return { label: ps[k].l, count: String(cards.length), cards: cards };
+    });
+    const listeProjets = S.projets.filter((p) => p.statut !== "annule" && matchProj(p)).map((p) => this.vmProj(p));
+    const typeChips = [["tous", "Tous"]].concat(Object.keys(ts).map((k) => [k, ts[k].l])).map((e) => {
+      const a = S.typeFiltre === e[0];
+      return { label: e[1], b: a ? "#173A47" : "#FFFFFF", c: a ? "#FFFFFF" : "#44606B", bd: a ? "#173A47" : "#D3DEE2", go: () => this.setState({ typeFiltre: e[0] }) };
+    });
+    const segOn = { b: "#FFFFFF", c: "#16282F", s: "0 1px 3px rgba(10,22,27,.14)" }, segOff = { b: "transparent", c: "#5E7077", s: "none" };
+    let selProj = null;
+    if (S.selProjet) {
+      const p = S.projets.find((x) => x.id === S.selProjet);
+      if (p) {
+        const base = this.vmProj(p);
+        const idx = this.ORDER.indexOf(p.statut);
+        const sp2 = S.sportifs.find((x) => x.id === p.sportifId);
+        const pa2 = S.partenaires.find((x) => x.id === p.partenaireId);
+        selProj = Object.assign(base, {
+          sportifNom: sp2 ? sp2.nom : "—", partenaireNom: pa2 ? pa2.nom : "—", debut: p.debut, fin: p.fin || "—",
+          note: p.note || "Aucune note pour le moment.",
+          canAdvance: idx > -1 && idx < this.ORDER.length - 1,
+          nextLabel: idx > -1 && idx < this.ORDER.length - 1 ? "Passer à « " + ps[this.ORDER[idx + 1]].l + " »" : "",
+          canBack: idx > 0,
+          canCancel: p.statut !== "termine" && p.statut !== "annule",
+          avancer: () => { this.upProjet(p.id, { statut: this.ORDER[idx + 1] }); this.notify("Projet passé « " + ps[this.ORDER[idx + 1]].l + " »"); },
+          reculer: () => this.upProjet(p.id, { statut: this.ORDER[idx - 1] }),
+          annuler: () => { this.upProjet(p.id, { statut: "annule" }); this.setState({ selProjet: null }); this.notify("Projet annulé"); },
+          hasSportif: !!sp2,
+          openSportif: () => { if (sp2) this.setState({ screen: "sportifFiche", selSportif: sp2.id, selProjet: null }); }
+        });
+      }
+    }
+    const sportifsList = S.sportifs.filter((s) => !q || (s.nom + " " + s.club + " " + s.poste).toLowerCase().includes(q)).map((s) => ({
+      nom: s.nom, init: this.init(s.nom), avBg: this.avc(s.id), sub: s.poste + " · " + s.club, age: s.age + " ans",
+      cL: cs[s.carte].l, cC: cs[s.carte].c, cBg: cs[s.carte].bg,
+      open: () => this.setState({ screen: "sportifFiche", selSportif: s.id })
+    }));
+    const sEl = S.sportifs.find((x) => x.id === S.selSportif) || S.sportifs[0];
+    const sp = {
+      nom: sEl.nom, init: this.init(sEl.nom), avBg: this.avc(sEl.id),
+      sub: sEl.poste + " · " + sEl.club + " · " + sEl.age + " ans", niveau: sEl.niveau,
+      cL: cs[sEl.carte].l, cC: cs[sEl.carte].c, cBg: cs[sEl.carte].bg,
+      infos: [
+        { l: "Date de naissance", v: sEl.naissance }, { l: "Téléphone", v: sEl.tel }, { l: "Poste", v: sEl.poste },
+        { l: "Club", v: sEl.club }, { l: "Niveau", v: sEl.niveau }, { l: "Contact d'urgence", v: sEl.urgence }, { l: "Objectif", v: sEl.objectif }
+      ],
+      num: sEl.num || "—", emise: sEl.emise || "—", expire: sEl.expire || "—",
+      projets: S.projets.filter((p) => p.sportifId === sEl.id && p.statut !== "annule").map((p) => this.vmProj(p)),
+      docs: S.docs.filter((d) => d.clientRef === sEl.id).map((d) => this.vmDocRow(d)),
+      notes: sEl.notes || [],
+      hasNotes: (sEl.notes || []).length > 0,
+      hasProjets: S.projets.filter((p) => p.sportifId === sEl.id && p.statut !== "annule").length > 0,
+      hasDocs: S.docs.filter((d) => d.clientRef === sEl.id).length > 0,
+      precontrat: () => this.setState({ screen: "precontrat", wizStep: 1, wiz: Object.assign({}, S.wiz, { sportifId: sEl.id }) }),
+      voirCarte: () => this.setState({ screen: "membres", membreSel: sEl.id }),
+      nouveauProjet: () => this.setState({ npOpen: true, np: Object.assign({}, S.np, { sportifId: sEl.id }) }),
+      addNote: () => { const t = S.noteInput.trim(); if (!t) return; this.upSportif(sEl.id, { notes: [{ txt: t, meta: "11/06/2026 · C. Makiese" }].concat(sEl.notes || []) }); this.setState({ noteInput: "" }); }
+    };
+    const partenairesList = S.partenaires.filter((p) => !q || (p.nom + " " + p.type).toLowerCase().includes(q)).map((p) => ({
+      nom: p.nom, init: this.init(p.nom), avBg: this.avc(p.id), type: p.type, ville: p.ville,
+      nbProjets: S.projets.filter((x) => x.partenaireId === p.id && x.statut !== "annule").length + " projets",
+      nbDocs: S.docs.filter((d) => d.clientRef === p.id && d.statut !== "annule").length + " documents",
+      bd: S.selPartenaire === p.id ? "#54C7EC" : "#E1E9EB",
+      open: () => this.setState({ selPartenaire: S.selPartenaire === p.id ? null : p.id })
+    }));
+    let selPart = null;
+    if (S.selPartenaire) {
+      const p = S.partenaires.find((x) => x.id === S.selPartenaire);
+      if (p) selPart = {
+        nom: p.nom, type: p.type + " · " + p.ville, contact: p.contact, tel: p.tel, email: p.email,
+        projets: S.projets.filter((x) => x.partenaireId === p.id && x.statut !== "annule").map((x) => this.vmProj(x)),
+        docs: S.docs.filter((d) => d.clientRef === p.id).map((d) => this.vmDocRow(d)),
+        close: () => this.setState({ selPartenaire: null })
+      };
+    }
+    const docsList = S.docs.filter((d) => (S.docTab === "tous" || d.type === S.docTab) && (!q || (d.num + " " + d.clientNom).toLowerCase().includes(q))).map((d) => this.vmDocRow(d));
+    let prev = null;
+    if (S.docPreview) {
+      const d = S.docs.find((x) => x.id === S.docPreview);
+      if (d) {
+        const t = this.docTotaux(d);
+        const pa3 = S.partenaires.find((x) => x.id === d.clientRef);
+        const sp3 = S.sportifs.find((x) => x.id === d.clientRef);
+        prev = {
+          typeLabel: d.type === "devis" ? "DEVIS" : "FACTURE", num: d.num, date: d.date, clientNom: d.clientNom,
+          clientSub: pa3 ? pa3.type + " · " + pa3.ville : sp3 ? sp3.poste + " · " + sp3.club : "Client externe",
+          stL: dst[d.statut].l, stC: dst[d.statut].c, stBg: dst[d.statut].bg,
+          lignes: d.lignes.map((l) => ({ label: l.label, qte: String(l.qte), prix: this.mn(l.prix), tot: this.mn(l.qte * l.prix) })),
+          stStr: this.mn(t.st), tvaOn: d.tva, tvaStr: this.mn(t.tv), totStr: this.mn(t.tot), tvaTaux: S.tvaTaux + " %",
+          canConvert: d.type === "devis" && (d.statut === "envoye" || d.statut === "accepte"),
+          canPay: d.type === "facture" && d.statut === "envoye",
+          convertir: () => this.convertir(d.id),
+          payer: () => { this.upDoc(d.id, { statut: "paye" }); this.notify("Facture " + d.num + " marquée payée"); },
+          close: () => this.setState({ docPreview: null }),
+          print: () => this.notify("Export PDF disponible dans la version connectée")
+        };
+      }
+    }
+    const tabDef = [["tous", "Tous"], ["devis", "Devis"], ["facture", "Factures"]].map((e) => {
+      const a = S.docTab === e[0];
+      return { label: e[1], b: a ? segOn.b : segOff.b, c: a ? segOn.c : segOff.c, s: a ? segOn.s : segOff.s, go: () => this.setState({ docTab: e[0] }) };
+    });
+    let draft = null;
+    if (S.draft) {
+      const D = S.draft;
+      const st = D.lignes.reduce((a, l) => a + l.qte * l.prix, 0);
+      const tv = D.tva ? Math.round(st * S.tvaTaux) / 100 : 0;
+      draft = {
+        titre: D.type === "devis" ? "Nouveau devis" : "Nouvelle facture",
+        isDevisB: D.type === "devis" ? segOn.b : segOff.b, isDevisC: D.type === "devis" ? segOn.c : segOff.c, isDevisS: D.type === "devis" ? segOn.s : segOff.s,
+        isFactB: D.type === "facture" ? segOn.b : segOff.b, isFactC: D.type === "facture" ? segOn.c : segOff.c, isFactS: D.type === "facture" ? segOn.s : segOff.s,
+        setDevis: () => this.setDraft({ type: "devis" }), setFacture: () => this.setDraft({ type: "facture" }),
+        clientKey: D.clientKey,
+        onClient: (e) => {
+          const v = e.target.value; let nom = "";
+          if (v.slice(0, 2) === "p:") { const x = S.partenaires.find((y) => y.id === v.slice(2)); nom = x ? x.nom : ""; }
+          else if (v.slice(0, 2) === "s:") { const x = S.sportifs.find((y) => y.id === v.slice(2)); nom = x ? x.nom : ""; }
+          this.setDraft({ clientKey: v, clientNom: nom });
+        },
+        date: D.date, onDate: (e) => this.setDraft({ date: e.target.value }),
+        lignes: D.lignes.map((l, i) => ({
+          label: l.label, qte: l.qte, prix: l.prix, tot: this.mn(l.qte * l.prix),
+          onQte: (e) => this.setDraft({ lignes: D.lignes.map((x, j) => j === i ? Object.assign({}, x, { qte: Math.max(0, parseInt(e.target.value, 10) || 0) }) : x) }),
+          onPrix: (e) => this.setDraft({ lignes: D.lignes.map((x, j) => j === i ? Object.assign({}, x, { prix: Math.max(0, parseFloat(e.target.value) || 0) }) : x) }),
+          remove: () => this.setDraft({ lignes: D.lignes.filter((x, j) => j !== i) })
+        })),
+        hasLignes: D.lignes.length > 0,
+        addSel: D.addSel, onAddSel: (e) => this.setDraft({ addSel: e.target.value }),
+        addLigne: () => {
+          const svc = S.services.find((x) => x.id === D.addSel);
+          if (!svc) { this.notify("Choisissez un service à ajouter"); return; }
+          this.setDraft({ lignes: D.lignes.concat([{ serviceId: svc.id, label: svc.nom, qte: 1, prix: svc.prix }]), addSel: "" });
+        },
+        tvaOn: D.tva, tvaBg: D.tva ? "#1F8A5B" : "#C7D4D9", tvaLeft: D.tva ? "21px" : "3px",
+        toggleTva: () => this.setDraft({ tva: !D.tva }),
+        stStr: this.mn(st), tvaStr: this.mn(tv), totStr: this.mn(st + tv), tvaTaux: S.tvaTaux + " %",
+        save: () => {
+          if (!D.clientNom) { this.notify("Choisissez un client"); return; }
+          if (!D.lignes.length) { this.notify("Ajoutez au moins une ligne de service"); return; }
+          const isDev = D.type === "devis";
+          const n = isDev ? S.docCounter.devis : S.docCounter.facture;
+          const num = (isDev ? "DEV-2026-0" : "FAC-2026-0") + n;
+          const doc = { id: "d" + Date.now(), num: num, type: D.type, clientNom: D.clientNom, clientRef: D.clientKey.slice(2), date: D.date, tva: D.tva, statut: "brouillon", lignes: D.lignes };
+          this.setState({ docs: [doc].concat(S.docs), docCounter: { devis: isDev ? n + 1 : S.docCounter.devis, facture: isDev ? S.docCounter.facture : n + 1 }, draft: null, screen: "docs" });
+          this.notify(num + " enregistré en brouillon");
+        },
+        cancel: () => this.setState({ draft: null, screen: "docs" })
+      };
+    }
+    const partOpts = S.partenaires.map((p) => ({ key: "p:" + p.id, nom: p.nom }));
+    const spOpts = S.sportifs.map((s) => ({ key: "s:" + s.id, nom: s.nom }));
+    const msEl = S.sportifs.find((x) => x.id === S.membreSel) || S.sportifs[0];
+    const membre = { nom: msEl.nom.toUpperCase(), num: msEl.num || "À ATTRIBUER", exp: msEl.expire || "—", stL: cs[msEl.carte].l, stC: cs[msEl.carte].c, stBg: cs[msEl.carte].bg, emise: msEl.emise || "—" };
+    const membresList = S.sportifs.filter((s) => !q || s.nom.toLowerCase().includes(q)).map((s) => ({
+      nom: s.nom, init: this.init(s.nom), avBg: this.avc(s.id), num: s.num || "—",
+      sub: s.carte === "actif" ? "Valable jusqu'au " + s.expire : s.carte === "expire" ? "Expirée le " + s.expire : s.carte === "attente" ? "Émission en cours" : "Pas encore de carte",
+      cL: cs[s.carte].l, cC: cs[s.carte].c, cBg: cs[s.carte].bg,
+      selBd: S.membreSel === s.id ? "#54C7EC" : "transparent",
+      voir: () => this.setState({ membreSel: s.id }),
+      canRenew: s.carte === "expire" || s.carte === "attente",
+      renewLabel: s.carte === "attente" ? "Activer" : "Renouveler",
+      renouveler: () => this.renouveler(s.id),
+      canSell: s.carte === "preinscrit",
+      vendre: () => this.vendreCarte(s)
+    }));
+    const avantages = [
+      "Accès prioritaire aux détections et sélections",
+      "Suivi de carrière personnalisé par l'agence",
+      "Invitations VIP — matchs, galas et événements",
+      "Réductions chez les partenaires Ndembo Kin",
+      "Identité officielle de membre : carte NFC + QR vérifiable"
+    ];
+    const wizLabels = ["Sportif", "Service", "Conditions", "Aperçu", "Génération"];
+    const wizSteps = wizLabels.map((l, i) => {
+      const n = i + 1, done = S.wizStep > n, act = S.wizStep === n;
+      return { n: String(n), label: l, cBg: done ? "#173A47" : act ? "#0E97C4" : "#FFFFFF", cC: done || act ? "#FFFFFF" : "#7A8E96", cBd: done ? "#173A47" : act ? "#0E97C4" : "#CFDBDF", tC: act ? "#16282F" : "#7A8E96", tW: act ? "700" : "500" };
+    });
+    const wsp = S.sportifs.find((x) => x.id === S.wiz.sportifId) || S.sportifs[0];
+    const wsvc = S.services.find((x) => x.id === S.wiz.service) || S.services[1];
+    const wiz = {
+      sportifId: S.wiz.sportifId, onSportif: (e) => this.setWiz({ sportifId: e.target.value }),
+      service: S.wiz.service, onService: (e) => this.setWiz({ service: e.target.value }),
+      objectif: S.wiz.objectif, onObjectif: (e) => this.setWiz({ objectif: e.target.value }),
+      duree: S.wiz.duree, onDuree: (e) => this.setWiz({ duree: e.target.value }),
+      debut: S.wiz.debut, onDebut: (e) => this.setWiz({ debut: e.target.value }),
+      conditions: S.wiz.conditions, onConditions: (e) => this.setWiz({ conditions: e.target.value }),
+      spNom: wsp.nom, spSub: wsp.poste + " · " + wsp.club, spNaissance: wsp.naissance, spTel: wsp.tel, spInit: this.init(wsp.nom), spAvBg: this.avc(wsp.id),
+      svcNom: wsvc.nom, svcPrix: this.mn(wsvc.prix),
+      ref: "PC-2026-00" + S.pcCounter, date: "11/06/2026",
+      objectifTxt: S.wiz.objectif || wsp.objectif || "Développement et valorisation du profil sportif.",
+      conditionsTxt: S.wiz.conditions || "Le présent document formalise l'intention d'accompagnement entre les parties. Il ne constitue pas un contrat de travail ni un mandat exclusif."
+    };
+    const roleRows = [
+      ["admin", "Christelle Makiese", "Admin — agence", "CM"],
+      ["partenaire", "CD Leganés", "Espace partenaire", "CL"],
+      ["sportif", "Glody Mbemba", "Espace sportif", "GM"]
+    ].map((r) => ({
+      nom: r[1], sub: r[2], init: r[3], avBg: this.avc(r[0]), active: S.role === r[0],
+      set: () => this.setState({ role: r[0], roleMenu: false, sheetOpen: false, screen: r[0] === "admin" ? "dashboard" : r[0] === "partenaire" ? "espacePartenaire" : "espaceSportif" })
+    }));
+    const validDocs = S.docs.filter((d) => d.statut !== "annule");
+    const agg = {};
+    validDocs.forEach((d) => d.lignes.forEach((l) => { agg[l.serviceId] = (agg[l.serviceId] || 0) + l.qte * l.prix; }));
+    const barCols = ["#0E97C4", "#44707F", "#FFCE2B", "#C9252B", "#1F8A5B", "#7C5CBF", "#B05A00", "#3D5E6C"];
+    const entries = Object.keys(agg).map((k) => ({ k: k, v: agg[k] })).sort((a, b) => b.v - a.v);
+    const maxV = entries.length ? entries[0].v : 1;
+    const caBars = entries.map((e, i) => {
+      const svc = S.services.find((x) => x.id === e.k);
+      return { label: svc ? svc.nom : e.k, val: this.mn(e.v), pct: Math.max(4, Math.round((e.v / maxV) * 100)) + "%", color: barCols[i % barCols.length] };
+    });
+    const statutBars = this.ORDER.concat(["annule"]).map((k) => {
+      const c = S.projets.filter((p) => p.statut === k).length;
+      return { label: ps[k].l, count: String(c), c: ps[k].c, bg: ps[k].bg, pct: Math.max(3, Math.round((c / Math.max(1, projetsValides.length)) * 100)) + "%" };
+    });
+    const ventes = [["Jan", 6], ["Fév", 4], ["Mar", 9], ["Avr", 5], ["Mai", 7], ["Juin", 3]].map((e) => ({ m: e[0], v: String(e[1]), h: Math.round((e[1] / 9) * 100) + "%" }));
+    const factTot = S.docs.filter((d) => d.type === "facture" && d.statut !== "annule").reduce((a, d) => a + this.docTotaux(d).tot, 0);
+    const rapKpis = [
+      { label: "Total facturé", val: this.mn(factTot), sub: "factures 2026 hors annulées" },
+      { label: "Encaissé", val: this.mn(encaisse), sub: "factures payées" },
+      { label: "En attente", val: this.mn(impSum), sub: "factures envoyées" }
+    ];
+    const perChips = [["mois", "Ce mois"], ["trim", "Trimestre"], ["annee", "Année 2026"]].map((e) => {
+      const a = S.rapPeriode === e[0];
+      return { label: e[1], b: a ? "#173A47" : "#FFFFFF", c: a ? "#FFFFFF" : "#44606B", bd: a ? "#173A47" : "#D3DEE2", go: () => this.setState({ rapPeriode: e[0] }) };
+    });
+    const servicesVm = S.services.map((s) => ({
+      nom: s.nom, unite: "par " + s.unite, prix: s.prix,
+      onPrix: (e) => this.setState({ services: S.services.map((x) => x.id === s.id ? Object.assign({}, x, { prix: Math.max(0, parseFloat(e.target.value) || 0) }) : x) })
+    }));
+    const paiements = ["Orange Money", "M-Pesa", "Airtel Money", "Virement bancaire (Rawbank)", "Espèces"];
+    const rolesPerm = [
+      { titre: "Admin", sub: "Pilote toute l'agence", items: ["Dashboard global et rapports", "Projets, sportifs, partenaires", "Devis, factures, précontrats", "Membres VIP et paramètres"] },
+      { titre: "Partenaire", sub: "Accès limité à son périmètre", items: ["Ses projets et sportifs liés", "Ses devis et factures", "Ses documents partagés"] },
+      { titre: "Sportif", sub: "Suit son propre dossier", items: ["Son profil et sa carte VIP", "Ses projets en cours", "Ses documents"] }
+    ];
+    const P1 = S.partenaires[0];
+    const partProjets = S.projets.filter((p) => p.partenaireId === P1.id && p.statut !== "annule").map((p) => this.vmProj(p));
+    const partDocs = S.docs.filter((d) => d.clientRef === P1.id).map((d) => this.vmDocRow(d));
+    const partSportifs = S.projets.filter((p) => p.partenaireId === P1.id && p.sportifId).map((p) => S.sportifs.find((s) => s.id === p.sportifId)).filter(Boolean).map((s) => ({ nom: s.nom, init: this.init(s.nom), avBg: this.avc(s.id), sub: s.poste + " · " + s.club }));
+    const partKpis = [{ l: "Projets", v: String(partProjets.length) }, { l: "Sportifs liés", v: String(partSportifs.length) }, { l: "Documents", v: String(partDocs.length) }];
+    const E1 = S.sportifs[0];
+    const espSp = {
+      nom: E1.nom, init: this.init(E1.nom), avBg: this.avc(E1.id), sub: E1.poste + " · " + E1.club,
+      cL: cs[E1.carte].l, cC: cs[E1.carte].c, cBg: cs[E1.carte].bg, num: E1.num, expire: E1.expire,
+      projets: S.projets.filter((p) => p.sportifId === E1.id && p.statut !== "annule").map((p) => this.vmProj(p)),
+      docs: S.docs.filter((d) => d.clientRef === E1.id).map((d) => this.vmDocRow(d))
+    };
+    const tabsDef = [["dash", "dashboard"], ["projets", "projets"], ["sportifs", "sportifs"], ["docs", "docs"]];
+    const mt = {};
+    tabsDef.forEach((t) => { mt[t[0]] = { c: navKey === t[0] && !S.sheetOpen ? "#0E97C4" : "#5E7077", go: () => this.go(t[1]) }; });
+    mt.plus = { c: S.sheetOpen ? "#0E97C4" : "#5E7077", go: () => this.setState({ sheetOpen: !S.sheetOpen }) };
+    return {
+      isMobile: S.isMobile, isDesktop: !S.isMobile,
+      padBottom: S.isMobile ? "108px" : "48px",
+      toastVal: S.toast, toastBottom: S.isMobile ? "88px" : "26px",
+      screenTitle: titles[S.screen] || "Ndembo Kin",
+      today: "jeudi 11 juin 2026",
+      nv: nv,
+      goDash: () => this.go("dashboard"), goProjets: () => this.go("projets"), goSportifs: () => this.go("sportifs"),
+      goPartenaires: () => this.go("partenaires"), goDocs: () => this.go("docs"), goMembres: () => this.go("membres"),
+      goPrecontrat: () => this.go("precontrat"), goRapports: () => this.go("rapports"), goParametres: () => this.go("parametres"),
+      searchVal: S.search, onSearch: (e) => this.setState({ search: e.target.value }),
+      bellClick: () => this.notify("3 notifications — démo"),
+      roleMenuOpen: S.roleMenu, toggleRoleMenu: () => this.setState({ roleMenu: !S.roleMenu }),
+      closeRoleMenu: () => this.setState({ roleMenu: false }),
+      roleRows: roleRows, roleInitial: S.role === "admin" ? "CM" : S.role === "partenaire" ? "CL" : "GM",
+      isDash: S.screen === "dashboard", isProjets: S.screen === "projets", isSportifs: S.screen === "sportifs",
+      isFiche: S.screen === "sportifFiche", isPartenaires: S.screen === "partenaires", isDocs: S.screen === "docs",
+      isDocEdit: S.screen === "docEdit" && !!draft, isMembres: S.screen === "membres", isPrecontrat: S.screen === "precontrat",
+      isRapports: S.screen === "rapports", isParametres: S.screen === "parametres",
+      isEspacePart: S.screen === "espacePartenaire", isEspaceSp: S.screen === "espaceSportif",
+      kpis: kpis, dashProjets: dashProjets, ren: ren, activite: S.activite,
+      qaProjet: () => this.setState({ npOpen: true }),
+      qaDevis: () => this.setState({ screen: "docEdit", draft: { type: "devis", clientKey: "", clientNom: "", date: "11/06/2026", tva: false, addSel: "", lignes: [] } }),
+      qaCarte: () => this.go("membres"),
+      qaPrecontrat: () => this.go("precontrat"),
+      segK: S.projetVue === "kanban" ? segOn : segOff, segL: S.projetVue === "liste" ? segOn : segOff,
+      vueKanban: () => this.setState({ projetVue: "kanban" }), vueListe: () => this.setState({ projetVue: "liste" }),
+      isKanban: S.projetVue === "kanban", isListe: S.projetVue === "liste",
+      kanbanCols: kanbanCols, listeProjets: listeProjets, typeChips: typeChips, selProj: selProj,
+      closeProjet: () => this.setState({ selProjet: null }),
+      sportifsList: sportifsList, sp: sp, nbSportifs: String(S.sportifs.length),
+      backSportifs: () => this.go("sportifs"),
+      noteInput: S.noteInput, onNoteInput: (e) => this.setState({ noteInput: e.target.value }),
+      partenairesList: partenairesList, selPart: selPart,
+      docsList: docsList, tabTous: tabDef[0], tabDevis: tabDef[1], tabFactures: tabDef[2],
+      nouveauDevis: () => this.setState({ screen: "docEdit", draft: { type: "devis", clientKey: "", clientNom: "", date: "11/06/2026", tva: false, addSel: "", lignes: [] } }),
+      prev: prev, draft: draft, partOpts: partOpts, spOpts: spOpts, services: S.services,
+      membre: membre, membresList: membresList, avantages: avantages,
+      wizSteps: wizSteps, wiz: wiz,
+      wiz1: S.wizStep === 1, wiz2: S.wizStep === 2, wiz3: S.wizStep === 3, wiz4: S.wizStep === 4, wiz5: S.wizStep === 5,
+      wizNext: () => this.setState({ wizStep: Math.min(4, S.wizStep + 1) }),
+      wizPrev: () => this.setState({ wizStep: Math.max(1, S.wizStep - 1) }),
+      wizCanPrev: S.wizStep > 1 && S.wizStep < 5,
+      wizGen: () => { this.setState({ wizStep: 5, precontrats: [{ num: "PC-2026-00" + S.pcCounter, sportif: wsp.nom, service: wsvc.nom, date: "11/06/2026" }].concat(S.precontrats), pcCounter: S.pcCounter + 1 }); this.notify("Précontrat généré"); },
+      wizReset: () => this.setState({ wizStep: 1, wiz: { sportifId: "s1", service: "carriere", objectif: "", duree: "12 mois", debut: "01/07/2026", conditions: "" } }),
+      wizPdf: () => this.notify("Export PDF disponible dans la version connectée"),
+      wizVoirSportif: () => this.setState({ screen: "sportifFiche", selSportif: S.wiz.sportifId }),
+      precontrats: S.precontrats,
+      caBars: caBars, statutBars: statutBars, ventes: ventes, rapKpis: rapKpis, perChips: perChips,
+      exportPdf: () => this.notify("Export PDF généré — démo"),
+      exportCsv: () => this.notify("Export CSV généré — démo"),
+      servicesVm: servicesVm, paiements: paiements, rolesPerm: rolesPerm,
+      tvaDefaut: S.tvaDefaut, tvaBg: S.tvaDefaut ? "#1F8A5B" : "#C7D4D9", tvaLeft: S.tvaDefaut ? "21px" : "3px",
+      toggleTvaDefaut: () => this.setState({ tvaDefaut: !S.tvaDefaut }),
+      tvaTaux: S.tvaTaux, onTvaTaux: (e) => this.setState({ tvaTaux: Math.max(0, parseFloat(e.target.value) || 0) }),
+      partNom: P1.nom, partType: P1.type + " · " + P1.ville, partKpis: partKpis, partProjets: partProjets, partDocs: partDocs, partSportifs: partSportifs,
+      espSp: espSp,
+      backAdmin: () => this.setState({ role: "admin", screen: "dashboard" }),
+      npOpen: S.npOpen, np: S.np,
+      npTitre: (e) => this.setNp({ titre: e.target.value }), npType: (e) => this.setNp({ type: e.target.value }),
+      npSportif: (e) => this.setNp({ sportifId: e.target.value }), npPartenaire: (e) => this.setNp({ partenaireId: e.target.value }),
+      npResp: (e) => this.setNp({ resp: e.target.value }),
+      npClose: () => this.setState({ npOpen: false }),
+      npCreer: () => {
+        const t = S.np.titre.trim();
+        if (!t) { this.notify("Donnez un titre au projet"); return; }
+        const pr = { id: "pr" + Date.now(), titre: t, type: S.np.type, statut: "brouillon", sportifId: S.np.sportifId, partenaireId: S.np.partenaireId, resp: S.np.resp || "C. Makiese", debut: "11/06/2026", fin: "", note: "" };
+        this.setState({ projets: [pr].concat(S.projets), npOpen: false, np: { titre: "", type: "camp", sportifId: "", partenaireId: "", resp: "C. Makiese" }, screen: "projets" });
+        this.notify("Projet créé en brouillon");
+      },
+      sheetOpen: S.sheetOpen, closeSheet: () => this.setState({ sheetOpen: false }),
+      mt: mt,
+      typesOpts: Object.keys(ts).map((k) => ({ key: k, label: ts[k].l })),
+      sportifOptsRaw: S.sportifs.map((s) => ({ key: s.id, nom: s.nom })),
+      partOptsRaw: S.partenaires.map((p) => ({ key: p.id, nom: p.nom }))
+    };
+  }
+}
+</script>
+</body>
+</html>
